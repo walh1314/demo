@@ -1,0 +1,7 @@
+1.start service :
+redis-server.exe Redis.conf
+
+
+2.将redis加入到windows的服务中
+
+redis-server –service-install Redis.conf –loglevel verbose

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.spring.springboot.dao.master.SystemInfoDao">
+	<resultMap id="SystemInfoResultMap" type="org.spring.springboot.domain.SystemInfo">
+		<result column="id" property="id" />
+		<result column="pid" property="pid" />
+		<result column="description" property="description" />
+	</resultMap>
+
+	<parameterMap id="SystemInfo" type="org.spring.springboot.domain.SystemInfo"/>
+	
+	<sql id="Base_Column_List">
+		id, pid, description
+	</sql>
+
+	<select id="findByPid" resultMap="SystemInfoResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from system_info
+		where pid = #{pid}
+	</select>
+</mapper>
