@@ -1,0 +1,10 @@
+git clone 克隆下载
+git init 初始化
+git status 查看文件状态
+git add * 添加所有文件
+git add /src/* 添加src下面的文件
+git commit 提交，弹出添加备注框
+git commit -m "添加备注信息" 直接添加备注信息
+git commit --amend 修改之前提交的备注信息
+git commit --amend "直接修改之前提交的备注信息"
+git reset
