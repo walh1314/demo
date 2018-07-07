@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.foxconn.lamp.manager.mapper.SysUserMapper">
+	<resultMap id="BaseResultMap" type="com.foxconn.lamp.manager.domain.SysUser">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="zh_name" jdbcType="VARCHAR" property="zhName" />
+		<result column="en_name" jdbcType="VARCHAR" property="enName" />
+		<result column="desc" jdbcType="VARCHAR" property="desc" />
+		<result column="email" jdbcType="VARCHAR" property="email" />
+		<result column="password" jdbcType="VARCHAR" property="password" />
+		<result column="age" jdbcType="BIGINT" property="age" />
+		<result column="mobile" jdbcType="VARCHAR" property="mobile" />
+		<result column="status" jdbcType="BIGINT" property="status" />
+		<result column="telephone" jdbcType="VARCHAR" property="telephone" />
+		<result column="short_phone" jdbcType="VARCHAR" property="shortPhone" />
+		<result column="employee_id" jdbcType="VARCHAR" property="employeeId" />
+		<result column="creater" jdbcType="VARCHAR" property="creater" />
+		<result column="modifier" jdbcType="VARCHAR" property="modifier" />
+		<result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, `name`, zh_name, en_name, `desc`, email, `password`, age,
+		mobile, `status`,
+		telephone,
+		short_phone, employee_id, creater, modifier,
+		modify_time, create_time
+	</sql>
+	<select id="selectById" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from sys_user
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<select id="selectByMap" parameterType="string" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from sys_user
+		<where>
+			<if test="name != null">
+				and `name` = #{name,jdbcType=VARCHAR}
+			</if>
+			<if test="zhName != null">
+				and zh_name = #{zhName,jdbcType=VARCHAR}
+			</if>
+			<if test="enName != null">
+				and en_name = #{enName,jdbcType=VARCHAR}
+			</if>
+			<if test="desc != null">
+				and `desc` = #{desc,jdbcType=VARCHAR}
+			</if>
+			<if test="email != null">
+				and email = #{email,jdbcType=VARCHAR}
+			</if>
+			<if test="password != null">
+				and `password` = #{password,jdbcType=VARCHAR}
+			</if>
+			<if test="age != null">
+				and age = #{age,jdbcType=BIGINT}
+			</if>
+			<if test="mobile != null">
+				and mobile = #{mobile,jdbcType=VARCHAR}
+			</if>
+			<if test="status != null">
+				and `status` = #{status,jdbcType=BIGINT}
+			</if>
+			<if test="telephone != null">
+				and telephone = #{telephone,jdbcType=VARCHAR}
+			</if>
+			<if test="shortPhone != null">
+				and short_phone = #{shortPhone,jdbcType=VARCHAR}
+			</if>
+			<if test="employeeId != null">
+				and employee_id = #{employeeId,jdbcType=VARCHAR}
+			</if>
+			<if test="creater != null">
+				and creater = #{creater,jdbcType=VARCHAR}
+			</if>
+			<if test="modifier != null">
+				and modifier = #{modifier,jdbcType=VARCHAR}
+			</if>
+			<if test="modifyTime != null">
+				and modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="createTime != null">
+				and create_time = #{createTime,jdbcType=TIMESTAMP}
+			</if>
+		</where>
+	</select>
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from sys_user
+		where id =
+		#{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.foxconn.lamp.manager.domain.SysUser">
+		insert into sys_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="name != null">
+				`name`,
+			</if>
+			<if test="zhName != null">
+				zh_name,
+			</if>
+			<if test="enName != null">
+				en_name,
+			</if>
+			<if test="desc != null">
+				`desc`,
+			</if>
+			<if test="email != null">
+				email,
+			</if>
+			<if test="password != null">
+				`password`,
+			</if>
+			<if test="age != null">
+				age,
+			</if>
+			<if test="mobile != null">
+				mobile,
+			</if>
+			<if test="status != null">
+				`status`,
+			</if>
+			<if test="telephone != null">
+				telephone,
+			</if>
+			<if test="shortPhone != null">
+				short_phone,
+			</if>
+			<if test="employeeId != null">
+				employee_id,
+			</if>
+			<if test="creater != null">
+				creater,
+			</if>
+			<if test="modifier != null">
+				modifier,
+			</if>
+			<if test="modifyTime != null">
+				modify_time,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="zhName != null">
+				#{zhName,jdbcType=VARCHAR},
+			</if>
+			<if test="enName != null">
+				#{enName,jdbcType=VARCHAR},
+			</if>
+			<if test="desc != null">
+				#{desc,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				#{email,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="age != null">
+				#{age,jdbcType=BIGINT},
+			</if>
+			<if test="mobile != null">
+				#{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=BIGINT},
+			</if>
+			<if test="telephone != null">
+				#{telephone,jdbcType=VARCHAR},
+			</if>
+			<if test="shortPhone != null">
+				#{shortPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="employeeId != null">
+				#{employeeId,jdbcType=VARCHAR},
+			</if>
+			<if test="creater != null">
+				#{creater,jdbcType=VARCHAR},
+			</if>
+			<if test="modifier != null">
+				#{modifier,jdbcType=VARCHAR},
+			</if>
+			<if test="modifyTime != null">
+				#{modifyTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateById" parameterType="com.foxconn.lamp.manager.domain.SysUser">
+		update sys_user
+		<set>
+			<if test="name != null">
+				`name` = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="zhName != null">
+				zh_name = #{zhName,jdbcType=VARCHAR},
+			</if>
+			<if test="enName != null">
+				en_name = #{enName,jdbcType=VARCHAR},
+			</if>
+			<if test="desc != null">
+				`desc` = #{desc,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				email = #{email,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				`password` = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="age != null">
+				age = #{age,jdbcType=BIGINT},
+			</if>
+			<if test="mobile != null">
+				mobile = #{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				`status` = #{status,jdbcType=BIGINT},
+			</if>
+			<if test="telephone != null">
+				telephone = #{telephone,jdbcType=VARCHAR},
+			</if>
+			<if test="shortPhone != null">
+				short_phone = #{shortPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="employeeId != null">
+				employee_id = #{employeeId,jdbcType=VARCHAR},
+			</if>
+			<if test="creater != null">
+				creater = #{creater,jdbcType=VARCHAR},
+			</if>
+			<if test="modifier != null">
+				modifier = #{modifier,jdbcType=VARCHAR},
+			</if>
+			<if test="modifyTime != null">
+				modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>
