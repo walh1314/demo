@@ -1,10 +1,13 @@
 package com.foxconn.lamp.common.entity;
 
+import java.util.List;
+
+import com.baomidou.mybatisplus.plugins.Page;
 import com.github.pagehelper.PageInfo;
 
 public class PageResult<T>
 {
-	private T rows;
+	private List<T> rows;
 	private Integer currentPage;
 	private Integer pageSize;
 
@@ -15,16 +18,24 @@ public class PageResult<T>
 	// 总页数
 	private Integer totalPage;
 
-	@SuppressWarnings("unchecked")
-	public PageResult(PageInfo<? extends Object> pageInfo)
+	public PageResult(PageInfo<T> pageInfo)
 	{
-		this.rows = (T) pageInfo.getList();
+		this.rows = pageInfo.getList();
 		this.totalNum = pageInfo.getTotal();
 		this.pageSize = pageInfo.getPageSize();
 		this.totalPage = pageInfo.getPages();
 	}
-	
-	public PageResult(T t)
+
+	public PageResult(Page<T> page)
+	{
+		this.currentPage = page.getCurrent();
+		this.pageSize = page.getSize();
+		this.totalNum = Long.valueOf(page.getTotal());
+		this.rows = page.getRecords();
+		this.totalPage = page.getPages();
+	}
+
+	public PageResult(List<T> t)
 	{
 		this.rows = t;
 	}
@@ -64,12 +75,12 @@ public class PageResult<T>
 		this.totalPage = totalPage;
 	}
 
-	public T getRows()
+	public List<T> getRows()
 	{
 		return rows;
 	}
 
-	public void setRows(T rows)
+	public void setRows(List<T> rows)
 	{
 		this.rows = rows;
 	}

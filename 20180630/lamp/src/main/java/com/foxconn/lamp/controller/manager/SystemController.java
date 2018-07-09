@@ -23,7 +23,7 @@ public class SystemController extends BaseController
 	 * @param bean userName and password
 	 * @return ResultMap<? extends Object>
 	 */
-	@RequestMapping(value = URLConstant.SYS_LOGIN,method={RequestMethod.POST})
+	@RequestMapping(value = URLConstant.SYS_LOGIN,method={RequestMethod.POST,RequestMethod.GET})
 	public ResultMap<? extends Object> login(@RequestBody LoginDto bean)
 	{
 		return sysUserService.login(bean.getUserName(), bean.getPassword());

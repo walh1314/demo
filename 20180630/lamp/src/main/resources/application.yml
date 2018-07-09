@@ -1,8 +1,9 @@
 server:
   port: 6000
-  session:
-    timeout: 10
-  context-path: /ssm
+  servlet:
+    session:
+      timeout: 30
+    context-path: /lamp
 
 ## master 数据源配置
 master:

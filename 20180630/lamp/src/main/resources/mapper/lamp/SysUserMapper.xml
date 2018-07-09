@@ -21,10 +21,12 @@
 		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, `name`, zh_name, en_name, `desc`, email, `password`, age,
+		id, `name`, zh_name, en_name, `desc`, email, `password`,
+		age,
 		mobile, `status`,
 		telephone,
-		short_phone, employee_id, creater, modifier,
+		short_phone, employee_id, creater,
+		modifier,
 		modify_time, create_time
 	</sql>
 	<select id="selectById" parameterType="java.lang.Integer"
@@ -35,7 +37,7 @@
 		where id = #{id,jdbcType=INTEGER}
 	</select>
 
-	<select id="selectByMap" parameterType="string" resultMap="BaseResultMap">
+	<select id="selectByMap" parameterType="map" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from sys_user
@@ -92,10 +94,12 @@
 	</select>
 	<delete id="deleteById" parameterType="java.lang.Integer">
 		delete from sys_user
-		where id =
+		where
+		id =
 		#{id,jdbcType=INTEGER}
 	</delete>
-	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.foxconn.lamp.manager.domain.SysUser">
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.foxconn.lamp.manager.domain.SysUser">
 		insert into sys_user
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -258,4 +262,60 @@
 		</set>
 		where id = #{id,jdbcType=INTEGER}
 	</update>
+
+	<select id="selectPage" parameterType="map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from sys_user
+		<where>
+			<if test="ew.entity.name != null">
+				and `name`  LIKE CONCAT(CONCAT('%',#{ew.entity.name,jdbcType=VARCHAR}),'%')
+			</if>
+			<if test="ew.entity.zhName != null">
+				and zh_name = #{ew.entity.zhName,jdbcType=VARCHAR}
+			</if>
+			<if test="ew.entity.enName != null">
+				and en_name = #{ew.entity.enName,jdbcType=VARCHAR}
+			</if>
+			<if test="ew.entity.desc != null">
+				and `desc` = #{ew.entity.desc,jdbcType=VARCHAR}
+			</if>
+			<if test="ew.entity.email != null">
+				and email LIKE CONCAT(CONCAT('%', #{ew.entity.email,jdbcType=VARCHAR}),'%')
+			</if>
+			<if test="ew.entity.password != null">
+				and `password` = #{ew.entity.password,jdbcType=VARCHAR}
+			</if>
+			<if test="ew.entity.age != null">
+				and ew.entity.age = #{ew.entity.age,jdbcType=BIGINT}
+			</if>
+			<if test="ew.entity.mobile != null">
+				and ew.entity.mobile = #{ew.entity.mobile,jdbcType=VARCHAR}
+			</if>
+			<if test="ew.entity.status != null">
+				and `status` = #{ew.entity.status,jdbcType=BIGINT}
+			</if>
+			<if test="ew.entity.telephone != null">
+				and ew.entity.telephone = #{ew.entity.telephone,jdbcType=VARCHAR}
+			</if>
+			<if test="ew.entity.shortPhone != null">
+				and short_phone = #{ew.entity.shortPhone,jdbcType=VARCHAR}
+			</if>
+			<if test="ew.entity.employeeId != null">
+				and employee_id = #{ew.entity.employeeId,jdbcType=VARCHAR}
+			</if>
+			<if test="ew.entity.creater != null">
+				and creater = #{ew.entity.creater,jdbcType=VARCHAR}
+			</if>
+			<if test="ew.entity.modifier != null">
+				and modifier = #{ew.entity.modifier,jdbcType=VARCHAR}
+			</if>
+			<if test="ew.entity.modifyTime != null">
+				and modify_time = #{ew.entity.modifyTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="ew.entity.createTime != null">
+				and create_time = #{ew.entity.createTime,jdbcType=TIMESTAMP}
+			</if>
+		</where>
+	</select>
 </mapper>

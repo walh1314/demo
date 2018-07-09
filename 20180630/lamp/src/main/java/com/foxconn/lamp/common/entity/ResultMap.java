@@ -87,7 +87,4 @@ public class ResultMap<T> implements Serializable
 	{
 		this.args = args;
 	}
-	
-	
-
 }

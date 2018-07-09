@@ -40,7 +40,7 @@ public class LogService {
     /**
      * 切点
      */
-    @Pointcut("@annotation(org.triber.portal.service.logAop.MethodLog)")
+    @Pointcut("@annotation(com.foxconn.lamp.log.MethodLog)")
     public void methodCachePointcut() { }
 
 

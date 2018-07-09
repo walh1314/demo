@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Mapper;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.foxconn.lamp.manager.domain.SysUser;
 
-@Mapper
 public interface SysUserMapper extends BaseMapper<SysUser>
 {
 

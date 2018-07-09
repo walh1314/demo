@@ -21,9 +21,11 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
+import com.foxconn.lamp.common.constant.RedisConstant;
 import com.foxconn.lamp.common.exception.BaseException;
 import com.foxconn.lamp.common.exception.ErrorCodes;
 import com.foxconn.lamp.common.util.EncryptUtil;
@@ -47,13 +49,12 @@ public class CustomAuthorizingRealm extends AuthorizingRealm
 
 	@Autowired
 	private SysRoleService sysRoleService;
-
-	// 用户登录次数计数 redisKey 前缀
-	private String SHIRO_LOGIN_COUNT = "SHIRO_LOGIN_COUNT_";
-
-	// 用户登录是否被锁定 一小时 redisKey 前缀
-	private String SHIRO_IS_LOCK = "SHIRO_IS_LOCK_";
-
+	
+	@Autowired
+	private UserToken userToken;
+	
+	@Value("${server.servlet.session.timeout}")
+	private int timeout = 30; //默认为30分钟
 	// 认证.登录
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException
@@ -63,21 +64,20 @@ public class CustomAuthorizingRealm extends AuthorizingRealm
 		String password = String.valueOf(token.getPassword());
 		// 访问一次，计数一次
 		ValueOperations<String, String> opsForValue = stringRedisTemplate.opsForValue();
-		opsForValue.increment(SHIRO_LOGIN_COUNT + name, 1);
+		opsForValue.increment(RedisConstant.SHIRO_LOGIN_COUNT + name, 1);
 		// 计数大于5时，设置用户被锁定一小时
-		opsForValue.set(SHIRO_LOGIN_COUNT + name, "0");
-		if (Integer.parseInt(opsForValue.get(SHIRO_LOGIN_COUNT + name)) >= 5)
+		opsForValue.set(RedisConstant.SHIRO_LOGIN_COUNT + name, "0");
+		if (Integer.parseInt(opsForValue.get(RedisConstant.SHIRO_LOGIN_COUNT + name)) >= 5)
 		{
-			opsForValue.set(SHIRO_IS_LOCK + name, "LOCK");
-			stringRedisTemplate.expire(SHIRO_IS_LOCK + name, 1, TimeUnit.HOURS);
+			opsForValue.set(RedisConstant.SHIRO_IS_LOCK + name, "LOCK");
+			stringRedisTemplate.expire(RedisConstant.SHIRO_IS_LOCK + name, 1, TimeUnit.HOURS);
 		}
 
-		if ("LOCK".equals(opsForValue.get(SHIRO_IS_LOCK + name)))
+		if ("LOCK".equals(opsForValue.get(RedisConstant.SHIRO_IS_LOCK + name)))
 		{
-			throw new BaseException(ErrorCodes.LOGIN_BAN_LOFIN_TIMES,
-					new DisabledAccountException("由于密码输入错误次数大于5次，帐号已经禁止登录！"));
+			throw new BaseException(ErrorCodes.LOGIN_BAN_LOFIN_TIMES,new DisabledAccountException("由于密码输入错误次数大于5次，帐号已经禁止登录！"));
 		}
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String, Object>(2);
 		map.put("name", name);
 		// 密码进行加密处理 明文为 password+name
 		String paw = password + name;
@@ -108,8 +108,10 @@ public class CustomAuthorizingRealm extends AuthorizingRealm
 			user.setLastLoginTime(new Date());
 			sysUserService.updateById(user);
 			// 清空登录计数
-			opsForValue.set(SHIRO_LOGIN_COUNT + name, "0");
-			opsForValue.set(SHIRO_IS_LOCK + name, "UNLOCK");
+			opsForValue.set(RedisConstant.SHIRO_LOGIN_COUNT + name, "0");
+			opsForValue.set(RedisConstant.SHIRO_IS_LOCK + name, "UNLOCK");
+			//设置token，并且验证是否超时
+			opsForValue.set(RedisConstant.SHIRO_USER_LOGIN_TOKEN + name.toLowerCase().trim(),userToken.createToken(name,String.valueOf(System.currentTimeMillis())), timeout,TimeUnit.MINUTES);
 		}
 		return new SimpleAuthenticationInfo(user, password, getName());
 	}

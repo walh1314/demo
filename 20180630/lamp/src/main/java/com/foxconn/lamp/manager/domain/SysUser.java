@@ -3,6 +3,7 @@ package com.foxconn.lamp.manager.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableName;
 
@@ -73,6 +74,7 @@ public class SysUser extends Model<SysUser>  {
      *
      * @mbg.generated Thu Jul 05 17:35:25 CST 2018
      */
+    @JSONField(serialize = false)
     private String password;
 
     /**

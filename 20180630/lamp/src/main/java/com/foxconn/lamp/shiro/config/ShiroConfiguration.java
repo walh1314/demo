@@ -184,7 +184,7 @@ public class ShiroConfiguration
 	}
 
 	/**
-	 * cacheManager 缓存 redis实现 使用的是shiro-redis开源插件
+	 * cacheManager 缓存 redis实现 使用的是shiro-reds开源插件
 	 * 
 	 * @return
 	 */

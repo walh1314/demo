@@ -1,7 +1,11 @@
 package com.foxconn.lamp.config.ds;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.sql.DataSource;
 
+import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
@@ -14,6 +18,11 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.baomidou.mybatisplus.entity.GlobalConfiguration;
+import com.baomidou.mybatisplus.mapper.LogicSqlInjector;
+import com.baomidou.mybatisplus.mapper.MetaObjectHandler;
+import com.baomidou.mybatisplus.plugins.PaginationInterceptor;
+import com.baomidou.mybatisplus.plugins.PerformanceInterceptor;
 
 @Configuration
 // 扫描 Mapper 接口并容器管理
@@ -36,6 +45,54 @@ public class LampDataSourceConfig
 
 	@Value("${lamp.datasource.driverClassName}")
 	private String driverClass;
+
+	/**
+	 * mybatis-plus分页插件<br>
+	 * 文档：http://mp.baomidou.com<br>
+	 */
+	@Bean
+	public PaginationInterceptor paginationInterceptor()
+	{
+		PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
+		// paginationInterceptor.setLocalPage(true);// 开启 PageHelper 的支持
+		return paginationInterceptor;
+	}
+
+	@Bean
+	public PerformanceInterceptor performanceInterceptor()
+	{
+		return new PerformanceInterceptor();
+	}
+
+	@Bean
+	public GlobalConfiguration globalConfiguration()
+	{
+		GlobalConfiguration conf = new GlobalConfiguration(new LogicSqlInjector());
+		conf.setLogicDeleteValue("-1");
+		conf.setLogicNotDeleteValue("1");
+		conf.setIdType(0);
+		conf.setMetaObjectHandler(new MetaObjectHandler()
+		{
+
+			@Override
+			public void insertFill(MetaObject metaObject)
+			{
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void updateFill(MetaObject metaObject)
+			{
+				// TODO Auto-generated method stub
+
+			}
+
+		});
+		conf.setDbColumnUnderline(true);
+		conf.setRefresh(true);
+		return conf;
+	}
 
 	@Bean(name = "lampDataSource")
 	@Primary
@@ -66,5 +123,16 @@ public class LampDataSourceConfig
 		sessionFactory.setMapperLocations(
 				new PathMatchingResourcePatternResolver().getResources(LampDataSourceConfig.MAPPER_LOCATION));
 		return sessionFactory.getObject();
+	}
+
+	@Bean
+	public DynamicDataSource multipleDataSource(@Qualifier(value = "lampDataSource") DataSource lampDataSource)
+	{
+		DynamicDataSource bean = new DynamicDataSource();
+		Map<Object, Object> targetDataSources = new HashMap<>();
+		targetDataSources.put("lampDataSource", lampDataSource);
+		bean.setTargetDataSources(targetDataSources);
+		bean.setDefaultTargetDataSource(lampDataSource);
+		return bean;
 	}
 }

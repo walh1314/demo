@@ -11,4 +11,6 @@ public interface URLConstant
 	
 	
 	String USER_BASE = "/user";
+	
+	String USER_PAGE_LIST = "/pageList";
 }
