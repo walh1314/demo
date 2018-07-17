@@ -16,5 +16,7 @@ public interface LampInfoMapper {
     LampInfo selectById(Integer id);
    
     int updateById(LampInfo record);
+    
+    int updateBySerail(LampInfo record);
 
 }

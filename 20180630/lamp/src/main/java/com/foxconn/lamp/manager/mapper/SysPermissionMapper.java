@@ -1,10 +1,20 @@
 package com.foxconn.lamp.manager.mapper;
-import org.apache.ibatis.annotations.Mapper;
 
-import com.baomidou.mybatisplus.mapper.BaseMapper;
+import java.util.List;
+import java.util.Map;
+
 import com.foxconn.lamp.manager.domain.SysPermission;
 
-@Mapper
-public interface SysPermissionMapper extends BaseMapper<SysPermission> {
+public interface SysPermissionMapper
+{
 
+	Integer deleteById(Integer id);
+
+	Integer insert(SysPermission record);
+
+	List<SysPermission> selectByMap(Map<String, Object> map);
+
+	SysPermission selectById(Integer id);
+
+	Integer updateById(SysPermission record);
 }

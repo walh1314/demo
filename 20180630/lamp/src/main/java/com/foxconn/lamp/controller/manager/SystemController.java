@@ -26,7 +26,7 @@ public class SystemController extends BaseController
 	@RequestMapping(value = URLConstant.SYS_LOGIN,method={RequestMethod.POST,RequestMethod.GET})
 	public ResultMap<? extends Object> login(@RequestBody LoginDto bean)
 	{
-		return sysUserService.login(bean.getUserName(), bean.getPassword());
+		return getMessage(sysUserService.login(bean.getUserName(), bean.getPassword()));
 	}
 	
 	
@@ -37,7 +37,7 @@ public class SystemController extends BaseController
 	@RequestMapping(value = URLConstant.SYS_LOGOUT,method={RequestMethod.POST})
 	public ResultMap<? extends Object> logout(@RequestBody LoginDto bean)
 	{
-		return sysUserService.login(bean.getUserName(), bean.getPassword());
+		return getMessage(sysUserService.login(bean.getUserName(), bean.getPassword()));
 	}
 	
 	/**
@@ -47,7 +47,7 @@ public class SystemController extends BaseController
 	@RequestMapping(value = URLConstant.SYS_KICKOUT,method={RequestMethod.POST})
 	public ResultMap<? extends Object> kickout(@RequestBody LoginDto bean)
 	{
-		return sysUserService.login(bean.getUserName(), bean.getPassword());
+		return getMessage(sysUserService.login(bean.getUserName(), bean.getPassword()));
 	}
 	
 	/**
@@ -57,7 +57,7 @@ public class SystemController extends BaseController
 	@RequestMapping(value = URLConstant.SYS_GET_GIFCODE,method={RequestMethod.POST})
 	public ResultMap<? extends Object> getGifCode(@RequestBody LoginDto bean)
 	{
-		return sysUserService.login(bean.getUserName(), bean.getPassword());
+		return getMessage(sysUserService.login(bean.getUserName(), bean.getPassword()));
 	}
 	
 }

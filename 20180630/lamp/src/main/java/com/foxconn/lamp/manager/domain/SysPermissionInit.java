@@ -2,11 +2,6 @@ package com.foxconn.lamp.manager.domain;
 
 import java.io.Serializable;
 
-import com.baomidou.mybatisplus.activerecord.Model;
-import com.baomidou.mybatisplus.annotations.TableField;
-import com.baomidou.mybatisplus.annotations.TableName;
-
-
 /**
  * <p>
  * 
@@ -15,55 +10,55 @@ import com.baomidou.mybatisplus.annotations.TableName;
  * @author z77z
  * @since 2017-02-16
  */
-@TableName("sys_permission_init")
-public class SysPermissionInit extends Model<SysPermissionInit> {
+public class SysPermissionInit implements Serializable
+{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 4080634888180654009L;
-	private String id;
+	private Integer id;
 	private String url;
-	@TableField("permission_init")
 	private String permissionInit;
 	private Integer sort;
 
-
-	public String getId() {
+	public Integer getId()
+	{
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id)
+	{
 		this.id = id;
 	}
 
-	public String getUrl() {
+	public String getUrl()
+	{
 		return url;
 	}
 
-	public void setUrl(String url) {
+	public void setUrl(String url)
+	{
 		this.url = url;
 	}
 
-	public String getPermissionInit() {
+	public String getPermissionInit()
+	{
 		return permissionInit;
 	}
 
-	public void setPermissionInit(String permissionInit) {
+	public void setPermissionInit(String permissionInit)
+	{
 		this.permissionInit = permissionInit;
 	}
 
-	public Integer getSort() {
+	public Integer getSort()
+	{
 		return sort;
 	}
 
-	public void setSort(Integer sort) {
+	public void setSort(Integer sort)
+	{
 		this.sort = sort;
 	}
-
-	@Override
-	protected Serializable pkVal() {
-		return this.id;
-	}
-
 }

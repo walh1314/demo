@@ -18,13 +18,40 @@
 		<result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
 		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
 	</resultMap>
+
+	<resultMap id="MarkLampsResultMap" type="com.foxconn.lamp.vo.MarkLampsVo">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="device_id" jdbcType="VARCHAR" property="deviceId" />
+		<result column="lamp_serial" jdbcType="VARCHAR" property="serail" />
+		<result column="points" jdbcType="CHAR" property="pointsString" />
+		<result column="desc" jdbcType="VARCHAR" property="desc" />
+		<result column="status" jdbcType="BIGINT" property="status" />
+		<result column="type" jdbcType="VARCHAR" property="type" />
+		<result column="maintainer" jdbcType="VARCHAR" property="maintainer" />
+	</resultMap>
 	<sql id="Base_Column_List">
 		id, name, serial, device_id, mac_addr, pub_net_addr,
-		lan_net_addr, type,
+		lan_net_addr, `type`,
 		location_addr,
-		status, desc, creater, modifier,
+		`status`, `desc`, creater,
+		modifier,
 		modify_time, create_time
 	</sql>
+
+	<sql id="MarkLamps_Column_List">
+		a.device_id, a.id, a.desc, a.lamp_serial, a.status,
+		a.points, b.type,b.maintainer
+	</sql>
+	<select id="selectByDeviceId" parameterType="string" resultMap="MarkLampsResultMap">
+		select
+		<include refid="MarkLamps_Column_List" />
+		FROM
+		lamp.camera_lamp_real a
+		JOIN
+		lamp.lamp_info b ON a.lamp_serial =
+		b.serial
+		where device_id = #{deviceId,jdbcType=VARCHAR}
+	</select>
 	<select id="selectById" parameterType="java.lang.Integer"
 		resultMap="BaseResultMap">
 		select
@@ -56,16 +83,16 @@
 				and lan_net_addr = #{lanNetAddr,jdbcType=VARCHAR}
 			</if>
 			<if test="type != null">
-				and type = #{type,jdbcType=VARCHAR}
+				and `type` = #{type,jdbcType=VARCHAR}
 			</if>
 			<if test="locationAddr != null">
 				and location_addr = #{locationAddr,jdbcType=VARCHAR}
 			</if>
 			<if test="status != null">
-				and status = #{status,jdbcType=BIGINT}
+				and `status` = #{status,jdbcType=BIGINT}
 			</if>
 			<if test="desc != null">
-				and desc = #{desc,jdbcType=VARCHAR}
+				and `desc` = #{desc,jdbcType=VARCHAR}
 			</if>
 			<if test="creater != null">
 				and creater = #{creater,jdbcType=VARCHAR}
@@ -81,12 +108,14 @@
 			</if>
 		</where>
 	</select>
+
 	<delete id="deleteById" parameterType="java.lang.Integer">
 		delete from camera_info
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
-	
-	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.foxconn.lamp.camera.domain.CameraInfo">
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.foxconn.lamp.camera.domain.CameraInfo">
 		insert into camera_info
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -111,16 +140,16 @@
 				lan_net_addr,
 			</if>
 			<if test="type != null">
-				type,
+				`type`,
 			</if>
 			<if test="locationAddr != null">
 				location_addr,
 			</if>
 			<if test="status != null">
-				status,
+				`status`,
 			</if>
 			<if test="desc != null">
-				desc,
+				`desc`,
 			</if>
 			<if test="creater != null">
 				creater,
@@ -205,16 +234,16 @@
 				lan_net_addr = #{lanNetAddr,jdbcType=VARCHAR},
 			</if>
 			<if test="type != null">
-				type = #{type,jdbcType=VARCHAR},
+				`type` = #{type,jdbcType=VARCHAR},
 			</if>
 			<if test="locationAddr != null">
 				location_addr = #{locationAddr,jdbcType=VARCHAR},
 			</if>
 			<if test="status != null">
-				status = #{status,jdbcType=BIGINT},
+				`status` = #{status,jdbcType=BIGINT},
 			</if>
 			<if test="desc != null">
-				desc = #{desc,jdbcType=VARCHAR},
+				`desc` = #{desc,jdbcType=VARCHAR},
 			</if>
 			<if test="creater != null">
 				creater = #{creater,jdbcType=VARCHAR},
@@ -229,6 +258,6 @@
 				create_time = #{createTime,jdbcType=TIMESTAMP},
 			</if>
 		</set>
-		where id = #{id,jdbcType=INTEGER}
+		where id = #{id}
 	</update>
 </mapper>

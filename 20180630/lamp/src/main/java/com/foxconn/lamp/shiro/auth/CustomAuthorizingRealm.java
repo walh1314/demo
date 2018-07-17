@@ -110,6 +110,8 @@ public class CustomAuthorizingRealm extends AuthorizingRealm
 			// 清空登录计数
 			opsForValue.set(RedisConstant.SHIRO_LOGIN_COUNT + name, "0");
 			opsForValue.set(RedisConstant.SHIRO_IS_LOCK + name, "UNLOCK");
+			
+			
 			//设置token，并且验证是否超时
 			opsForValue.set(RedisConstant.SHIRO_USER_LOGIN_TOKEN + name.toLowerCase().trim(),userToken.createToken(name,String.valueOf(System.currentTimeMillis())), timeout,TimeUnit.MINUTES);
 		}

@@ -1,18 +1,16 @@
 package com.foxconn.lamp.manager.service;
 
-import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.Map;
 
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.foxconn.lamp.manager.domain.SysPermission;
-import com.foxconn.lamp.manager.mapper.SysPermissionMapper;
 
 /**
  * 
  * @author liupingan
  *
  */
-@Service
-public class SysPermissionService extends ServiceImpl<SysPermissionMapper, SysPermission>
+public interface SysPermissionService
 {
-
+	List<SysPermission> selectByMap(Map<String, Object> map);
 }

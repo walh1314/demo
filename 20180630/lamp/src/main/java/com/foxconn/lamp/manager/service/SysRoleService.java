@@ -1,13 +1,12 @@
 package com.foxconn.lamp.manager.service;
 
-import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.Map;
 
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.foxconn.lamp.manager.domain.SysRole;
-import com.foxconn.lamp.manager.mapper.SysRoleMapper;
 
-@Service
-public class SysRoleService extends ServiceImpl<SysRoleMapper, SysRole>
+public interface SysRoleService
 {
 
+	List<SysRole> selectByMap(Map<String,Object> map);
 }

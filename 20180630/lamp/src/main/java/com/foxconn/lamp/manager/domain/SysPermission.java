@@ -1,9 +1,8 @@
 package com.foxconn.lamp.manager.domain;
 
-import com.baomidou.mybatisplus.activerecord.Model;
-import com.baomidou.mybatisplus.annotations.TableName;
 import java.io.Serializable;
 
+import com.baomidou.mybatisplus.annotations.TableName;
 
 /**
  * <p>
@@ -14,50 +13,51 @@ import java.io.Serializable;
  * @since 2017-02-13
  */
 @TableName("sys_permission")
-public class SysPermission extends Model<SysPermission> {
+public class SysPermission implements Serializable
+{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 2922376743661763427L;
 	private String id;
-    /**
-     * url地址
-     */
+	/**
+	 * url地址
+	 */
 	private String url;
-    /**
-     * url描述
-     */
+	/**
+	 * url描述
+	 */
 	private String name;
 
-
-	public String getId() {
+	public String getId()
+	{
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(String id)
+	{
 		this.id = id;
 	}
 
-	public String getUrl() {
+	public String getUrl()
+	{
 		return url;
 	}
 
-	public void setUrl(String url) {
+	public void setUrl(String url)
+	{
 		this.url = url;
 	}
 
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(String name)
+	{
 		this.name = name;
-	}
-
-	@Override
-	protected Serializable pkVal() {
-		return this.id;
 	}
 
 }

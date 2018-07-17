@@ -8,13 +8,19 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
+import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.foxconn.lamp.common.entity.ResultMap;
 import com.mysql.jdbc.StringUtils;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
+@Slf4j
 public class BaseController
 {
 	private MessageSource messageSource;
@@ -67,28 +73,51 @@ public class BaseController
 		if (result != null)
 		{
 			List<String> args = null;
-			if (result.getArgs() != null)
+			try
 			{
-				args = new ArrayList<>(result.getArgs().length);
-				for (int i = 0; i < result.getArgs().length; i++)
+				if (result.getArgs() != null)
 				{
-					// args 国际化
-					args.add(messageSource.getMessage(result.getArgs()[i], null, locale));
+					args = new ArrayList<>(result.getArgs().length);
+					for (int i = 0; i < result.getArgs().length; i++)
+					{
+						// args 国际化
+						args.add(messageSource.getMessage(result.getArgs()[i], null, locale));
+					}
 				}
-			}
 
-			if (StringUtils.isNullOrEmpty(result.getMsg()))
-			{
-				if (!StringUtils.isNullOrEmpty(result.getCode()))
+				if (StringUtils.isNullOrEmpty(result.getMsg()))
 				{
-					result.setMsg(messageSource.getMessage(result.getCode(), args.toArray(), locale));
+					if (!StringUtils.isNullOrEmpty(result.getCode()))
+					{
+						result.setMsg(messageSource.getMessage(result.getCode(), args.toArray(), locale));
+					}
+				} else
+				{
+					result.setMsg(
+							messageSource.getMessage(result.getMsg(), (args == null || args.size() == 0) ? new String[]
+							{} : args.toArray(), locale));
 				}
-			} else
+			} catch (NoSuchMessageException e)
 			{
-				result.setMsg(messageSource.getMessage(result.getMsg(), args.toArray(), locale));
+				log.error(e.getMessage());
 			}
 		}
 		return result;
+	}
+
+	/**
+	 * 设置当前的返回信息
+	 * 
+	 * @param request
+	 * @param code
+	 * @return
+	 */
+	public ResultMap<? extends Object> getMessage(ResultMap<? extends Object> result)
+	{
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+				.getRequest();
+		return getMessage(request, result);
+
 	}
 
 	/**
@@ -112,8 +141,9 @@ public class BaseController
 					continue;
 				}
 				locales = languages[i].split("-");
-				result = new Locale(locales[0].trim(), locales.length > 1 ? locales[1].trim() : null,
-						locales.length > 2 ? locales[2].trim() : null);
+
+				result = new Locale(locales[0].trim(), locales.length > 1 ? locales[1].trim() : "",
+						locales.length > 2 ? locales[2].trim() : "");
 			}
 		}
 		return result;

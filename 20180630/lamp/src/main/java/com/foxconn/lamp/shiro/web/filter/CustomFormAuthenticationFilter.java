@@ -18,7 +18,6 @@ public class CustomFormAuthenticationFilter extends FormAuthenticationFilter
 			ServletResponse response) throws Exception
 	{
 		// TODO Auto-generated method stub
-		System.out.println("==================11111111111111===============");
 		return super.onLoginSuccess(token, subject, request, response);
 	}
 
@@ -27,7 +26,6 @@ public class CustomFormAuthenticationFilter extends FormAuthenticationFilter
 			ServletResponse response)
 	{
 		// TODO Auto-generated method stub
-		System.out.println("==================22222222222222===============");
 		return super.onLoginFailure(token, e, request, response);
 	}
 

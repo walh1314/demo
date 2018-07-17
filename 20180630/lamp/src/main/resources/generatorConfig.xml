@@ -7,7 +7,7 @@
 	<context id="testTables" targetRuntime="MyBatis3">
 		<commentGenerator>
 			<!-- 是否去除自动生成的注释 true：是 ： false:否 -->
-			<property name="suppressAllComments" value="false" />
+			<property name="suppressAllComments" value="true" />
 		</commentGenerator>
 		<!--数据库连接的信息：驱动类、连接地址、用户名、密码 -->
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
@@ -41,12 +41,11 @@
 			<property name="enableSubPackages" value="false" />
 		</javaClientGenerator>
 		<!-- 指定数据库表 -->
-		<table schema="" tableName="user"></table>
-		<table schema="" tableName="lamp_type"></table>
-		<table schema="" tableName="lamp_info"></table>
-		<table schema="" tableName="camera_type"></table>
-		<table schema="" tableName="camera_info"></table>
-		<table schema="" tableName="camera_lamp_real"></table>
+		<table schema="" tableName="sys_permission"></table>
+		<table schema="" tableName="sys_permission_init"></table>
+		<table schema="" tableName="sys_role"></table>
+		<table schema="" tableName="sys_role_permission"></table>
+		<table schema="" tableName="sys_user_role"></table>
 		<!-- 有些表的字段需要指定java类型
 		 <table schema="" tableName=""> <columnOverride column=""  javaType="" /> </table>
 		  -->

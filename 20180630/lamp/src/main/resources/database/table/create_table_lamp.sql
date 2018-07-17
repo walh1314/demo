@@ -65,7 +65,7 @@ CREATE TABLE `sys_role_permission` (
 
 -- DROP TABLE IF EXISTS `sys_user_role`;
 CREATE TABLE `sys_user_role` (
-  `id` varchar(64) NOT NULL,
+   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键，自动增长',
   `uid` varchar(64) DEFAULT NULL COMMENT '用户名',
   `rid` varchar(64) DEFAULT NULL COMMENT '角色ID',
   PRIMARY KEY (`id`)

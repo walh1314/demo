@@ -4,26 +4,14 @@ package com.foxconn.lamp.manager.domain;
 
 import java.io.Serializable;
 
-import com.baomidou.mybatisplus.activerecord.Model;
-import com.baomidou.mybatisplus.annotations.TableName;
 
-
-/**
- * <p>
- * 
- * </p>
- *
- * @author z77z
- * @since 2017-02-13
- */
-@TableName("sys_role_permission")
-public class SysRolePermission extends Model<SysRolePermission> {
+public class SysRolePermission implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4419864886290187014L;
-	private String id;
+	private Integer id;
     /**
      * 角色ID
      */
@@ -34,11 +22,11 @@ public class SysRolePermission extends Model<SysRolePermission> {
 	private String pid;
 
 
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -57,10 +45,4 @@ public class SysRolePermission extends Model<SysRolePermission> {
 	public void setPid(String pid) {
 		this.pid = pid;
 	}
-
-	@Override
-	protected Serializable pkVal() {
-		return this.id;
-	}
-
 }

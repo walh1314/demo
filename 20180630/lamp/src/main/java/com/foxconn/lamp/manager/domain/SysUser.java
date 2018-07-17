@@ -4,11 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.baomidou.mybatisplus.activerecord.Model;
-import com.baomidou.mybatisplus.annotations.TableName;
 
-@TableName("sys_user")
-public class SysUser extends Model<SysUser>  {
+public class SysUser implements Serializable  {
     /**
 	 * 
 	 */
@@ -587,10 +584,4 @@ public class SysUser extends Model<SysUser>  {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
-
-	@Override
-	protected Serializable pkVal()
-	{
-		return this.id;
-	}
 }

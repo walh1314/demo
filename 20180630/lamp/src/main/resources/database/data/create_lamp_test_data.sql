@@ -20,3 +20,10 @@ INSERT INTO `lamp`.`sys_user`
 VALUES
 ('name003','name003','name003','name003','name003@test.com','wPfQv64jQZcSPq0YMWK+5A==',11,'15200483846',1,null,null,'F1334999','name01','name01',now(),now());
 
+
+
+INSERT INTO `lamp`.`camera_type` (`id`, `code`, `name`, `order`, `desc`, `status`, `creater`, `modifier`, `modify_time`, `create_time`) VALUES ('1', 'IP', 'IP Camera', '1', 'IP Camera', '1', 'name001', 'name001', '2017-07-12', '2017-07-12');
+INSERT INTO `lamp`.`camera_type` (`id`, `code`, `name`, `order`, `desc`, `status`, `creater`, `modifier`, `modify_time`, `create_time`) VALUES ('2', 'battery', 'Battery Camera', '2', 'Battery Camera', '1', 'name001', 'name001', '2017-07-12', '2017-07-12');
+
+INSERT INTO `lamp`.`lamp_type` (`id`, `code`, `name`, `order`, `desc`, `status`, `creater`, `modifier`, `modify_time`, `create_time`) VALUES ('1', 'red', 'red', '1', 'red', '1', 'name001', 'name001', '2017-12-03', '2017-12-03');
+INSERT INTO `lamp`.`lamp_type` (`id`, `code`, `name`, `order`, `desc`, `status`, `creater`, `modifier`, `modify_time`, `create_time`) VALUES ('2', 'blue', 'blue', '2', 'red', '1', 'name001', 'name001', '2017-12-03', '2017-12-03');

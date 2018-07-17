@@ -37,13 +37,13 @@
 		where id = #{id,jdbcType=INTEGER}
 	</select>
 
-	<select id="selectByMap" parameterType="map" resultMap="BaseResultMap">
+	<select id="selectByMap" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from sys_user
 		<where>
-			<if test="name != null">
-				and `name` = #{name,jdbcType=VARCHAR}
+			<if test="name != null and name.length > 0 ">
+				and `name` like  concat(concat('%', #{name,jdbcType=VARCHAR}),'%')
 			</if>
 			<if test="zhName != null">
 				and zh_name = #{zhName,jdbcType=VARCHAR}
@@ -263,59 +263,4 @@
 		where id = #{id,jdbcType=INTEGER}
 	</update>
 
-	<select id="selectPage" parameterType="map" resultMap="BaseResultMap">
-		select
-		<include refid="Base_Column_List" />
-		from sys_user
-		<where>
-			<if test="ew.entity.name != null">
-				and `name`  LIKE CONCAT(CONCAT('%',#{ew.entity.name,jdbcType=VARCHAR}),'%')
-			</if>
-			<if test="ew.entity.zhName != null">
-				and zh_name = #{ew.entity.zhName,jdbcType=VARCHAR}
-			</if>
-			<if test="ew.entity.enName != null">
-				and en_name = #{ew.entity.enName,jdbcType=VARCHAR}
-			</if>
-			<if test="ew.entity.desc != null">
-				and `desc` = #{ew.entity.desc,jdbcType=VARCHAR}
-			</if>
-			<if test="ew.entity.email != null">
-				and email LIKE CONCAT(CONCAT('%', #{ew.entity.email,jdbcType=VARCHAR}),'%')
-			</if>
-			<if test="ew.entity.password != null">
-				and `password` = #{ew.entity.password,jdbcType=VARCHAR}
-			</if>
-			<if test="ew.entity.age != null">
-				and ew.entity.age = #{ew.entity.age,jdbcType=BIGINT}
-			</if>
-			<if test="ew.entity.mobile != null">
-				and ew.entity.mobile = #{ew.entity.mobile,jdbcType=VARCHAR}
-			</if>
-			<if test="ew.entity.status != null">
-				and `status` = #{ew.entity.status,jdbcType=BIGINT}
-			</if>
-			<if test="ew.entity.telephone != null">
-				and ew.entity.telephone = #{ew.entity.telephone,jdbcType=VARCHAR}
-			</if>
-			<if test="ew.entity.shortPhone != null">
-				and short_phone = #{ew.entity.shortPhone,jdbcType=VARCHAR}
-			</if>
-			<if test="ew.entity.employeeId != null">
-				and employee_id = #{ew.entity.employeeId,jdbcType=VARCHAR}
-			</if>
-			<if test="ew.entity.creater != null">
-				and creater = #{ew.entity.creater,jdbcType=VARCHAR}
-			</if>
-			<if test="ew.entity.modifier != null">
-				and modifier = #{ew.entity.modifier,jdbcType=VARCHAR}
-			</if>
-			<if test="ew.entity.modifyTime != null">
-				and modify_time = #{ew.entity.modifyTime,jdbcType=TIMESTAMP}
-			</if>
-			<if test="ew.entity.createTime != null">
-				and create_time = #{ew.entity.createTime,jdbcType=TIMESTAMP}
-			</if>
-		</where>
-	</select>
 </mapper>

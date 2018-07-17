@@ -14,12 +14,12 @@
 		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		id, code, name, order, desc, status, creater, modifier,
+		id, code, name, `order`, `desc`, `status`, creater, modifier,
 		modify_time,
 		create_time
 	</sql>
 	<sql id="Insert_Column_List">
-		code, name, order, desc, status, creater, modifier, modify_time,create_time
+		code, name, order, `desc`, `status`, creater, modifier, modify_time,create_time
 	</sql>
 	<select id="selectById" parameterType="java.lang.Integer"
 		resultMap="BaseResultMap">
@@ -44,13 +44,13 @@
 				and name = #{name,jdbcType=VARCHAR}
 			</if>
 			<if test="order != null">
-				and order = #{order,jdbcType=INTEGER}
+				and `order` = #{order,jdbcType=INTEGER}
 			</if>
 			<if test="desc != null">
-				and desc = #{desc,jdbcType=VARCHAR}
+				and `desc` = #{desc,jdbcType=VARCHAR}
 			</if>
 			<if test="status != null">
-				and status = #{status,jdbcType=BIGINT}
+				and `status` = #{status,jdbcType=BIGINT}
 			</if>
 			<if test="creater != null">
 				and creater = #{creater,jdbcType=VARCHAR}
@@ -73,7 +73,7 @@
 	
 	<delete id="deleteByCode" parameterType="string">
 		delete from camera_type
-		where id = #{code,jdbcType=VARCHAR}
+		where code = #{code,jdbcType=VARCHAR}
 	</delete>
 	 <insert id="insert"  useGeneratedKeys="true" keyProperty="id" parameterType="com.foxconn.lamp.camera.domain.CameraType">
     insert into camera_type
@@ -88,13 +88,13 @@
         name,
       </if>
       <if test="order != null">
-        order,
+        `order`,
       </if>
       <if test="desc != null">
-        desc,
+        `desc`,
       </if>
       <if test="status != null">
-        status,
+        `status`,
       </if>
       <if test="creater != null">
         creater,
@@ -155,13 +155,13 @@
 				name = #{name,jdbcType=VARCHAR},
 			</if>
 			<if test="order != null">
-				order = #{order,jdbcType=INTEGER},
+				`order` = #{order,jdbcType=INTEGER},
 			</if>
 			<if test="desc != null">
-				desc = #{desc,jdbcType=VARCHAR},
+				`desc` = #{desc,jdbcType=VARCHAR},
 			</if>
 			<if test="status != null">
-				status = #{status,jdbcType=BIGINT},
+				`status` = #{status,jdbcType=BIGINT},
 			</if>
 			<if test="creater != null">
 				creater = #{creater,jdbcType=VARCHAR},

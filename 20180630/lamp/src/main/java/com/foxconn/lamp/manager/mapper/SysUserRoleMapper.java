@@ -1,12 +1,20 @@
 package com.foxconn.lamp.manager.mapper;
 
-import org.apache.ibatis.annotations.Mapper;
+import java.util.List;
+import java.util.Map;
 
-import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.foxconn.lamp.manager.domain.SysUserRole;
 
-@Mapper
-public interface SysUserRoleMapper extends BaseMapper<SysUserRole>
+public interface SysUserRoleMapper
 {
 
+	Integer deleteById(Integer id);
+
+	Integer insert(SysUserRole record);
+
+	List<SysUserRole> selectByExample(Map<String, Object> map);
+
+	SysUserRole selectById(Integer id);
+
+	Integer updateById(SysUserRole record);
 }

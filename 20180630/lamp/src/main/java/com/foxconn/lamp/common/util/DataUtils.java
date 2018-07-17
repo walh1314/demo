@@ -2,6 +2,9 @@ package com.foxconn.lamp.common.util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Date;
+
+import com.foxconn.lamp.manager.domain.SysUser;
 
 /**
  * 

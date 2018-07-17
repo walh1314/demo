@@ -13,7 +13,7 @@
 		<result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
 		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
 	</resultMap>
-
+	
 	<sql id="Base_Column_List">
 		id, device_id, lamp_serial, points, status, desc, creater,
 		modifier,

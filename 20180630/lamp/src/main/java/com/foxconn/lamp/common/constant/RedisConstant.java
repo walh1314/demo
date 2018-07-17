@@ -10,5 +10,7 @@ public interface RedisConstant
 	String SHIRO_IS_LOCK = "SHIRO_IS_LOCK_";
 
 	String SHIRO_USER_LOGIN_TOKEN = "SHIRO_USER_LOGIN_TOKEN_";
+	
+	String SHIRO_USER_INFO = "SHIRO_USER_INFO_";
 
 }

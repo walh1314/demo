@@ -193,4 +193,41 @@
 		</set>
 		where id = #{id,jdbcType=INTEGER}
 	</update>
+	
+	<update id="updateBySerail" parameterType="com.foxconn.lamp.device.domain.LampInfo">
+		update lamp_info
+		<set>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="machineNum != null">
+				machine_num = #{machineNum,jdbcType=VARCHAR},
+			</if>
+			<if test="maintainer != null">
+				maintainer = #{maintainer,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=BIGINT},
+			</if>
+			<if test="desc != null">
+				desc = #{desc,jdbcType=VARCHAR},
+			</if>
+			<if test="creater != null">
+				creater = #{creater,jdbcType=VARCHAR},
+			</if>
+			<if test="modifier != null">
+				modifier = #{modifier,jdbcType=VARCHAR},
+			</if>
+			<if test="modifyTime != null">
+				modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where serial = #{serial,jdbcType=VARCHAR}
+	</update>
 </mapper>

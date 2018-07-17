@@ -1,12 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.foxconn.lamp.manager.mapper.SysRolePermissionMapper">
-
-	<!-- 通用查询映射结果 -->
-	<resultMap id="BaseResultMap" type="com.foxconn.lamp.manager.domain.SysRolePermission">
-		<id column="id" property="id" />
-		<result column="rid" property="rid" />
-		<result column="pid" property="pid" />
+	<resultMap id="BaseResultMap"
+		type="com.foxconn.lamp.manager.domain.SysRolePermission">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="rid" jdbcType="VARCHAR" property="rid" />
+		<result column="pid" jdbcType="VARCHAR" property="pid" />
 	</resultMap>
+	<sql id="Base_Column_List">
+		id, rid, pid
+	</sql>
+	<select id="selectById" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from sys_role_permission
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<select id="selectByMap" parameterType="map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from sys_role_permission
+		<where>
+			<if test="rid != null">
+				and rid = #{rid,jdbcType=VARCHAR}
+			</if>
+			<if test="pid != null">
+				and pid = #{pid,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from
+		sys_role_permission
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.foxconn.lamp.manager.domain.SysRolePermission">
+		insert into sys_role_permission
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="rid != null">
+				rid,
+			</if>
+			<if test="pid != null">
+				pid,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="rid != null">
+				#{rid,jdbcType=VARCHAR},
+			</if>
+			<if test="pid != null">
+				#{pid,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateById" parameterType="com.foxconn.lamp.manager.domain.SysRolePermission">
+		update sys_role_permission
+		<set>
+			<if test="rid != null">
+				rid = #{rid,jdbcType=VARCHAR},
+			</if>
+			<if test="pid != null">
+				pid = #{pid,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
 
 </mapper>
