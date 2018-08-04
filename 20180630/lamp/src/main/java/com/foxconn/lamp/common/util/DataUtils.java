@@ -2,20 +2,21 @@ package com.foxconn.lamp.common.util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Date;
 
-import com.foxconn.lamp.manager.domain.SysUser;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 
  * @author liupingan
  *
  */
+@Slf4j
 public class DataUtils
 {
 
 	/**
 	 * Object field switch
+	 * 
 	 * @param source
 	 * @param target
 	 * @return
@@ -57,34 +58,30 @@ public class DataUtils
 					}
 				} catch (IllegalAccessException e)
 				{
-					e.printStackTrace();
+					log.error(e.getMessage());
 				} catch (NoSuchFieldException e)
 				{
-					e.printStackTrace();
+					log.error(e.getMessage());
 				}
 			}
 		} catch (NoSuchMethodException e)
 		{
-			e.printStackTrace();
+			log.error(e.getMessage());
 		} catch (SecurityException e)
 		{
-			e.printStackTrace();
+			log.error(e.getMessage());
 		} catch (InstantiationException e1)
 		{
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			log.error(e1.getMessage());
 		} catch (IllegalAccessException e1)
 		{
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			log.error(e1.getMessage());
 		} catch (IllegalArgumentException e1)
 		{
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			log.error(e1.getMessage());
 		} catch (InvocationTargetException e1)
 		{
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			log.error(e1.getMessage());
 		}
 		return result;
 	}

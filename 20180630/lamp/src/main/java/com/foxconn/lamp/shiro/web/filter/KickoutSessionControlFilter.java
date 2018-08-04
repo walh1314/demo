@@ -1,12 +1,15 @@
 package com.foxconn.lamp.shiro.web.filter;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Deque;
 import java.util.LinkedList;
 
+import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
@@ -17,7 +20,9 @@ import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 
+import com.foxconn.lamp.common.exception.BaseException;
 import com.foxconn.lamp.manager.domain.SysUser;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +34,7 @@ import lombok.extern.slf4j.Slf4j;
  * 3.判断当前登录的session域中的kickout如果为true， 想将其做退出登录处理，然后再重定向到踢出登录提示页面
  */
 @Slf4j
+@Configuration
 public class KickoutSessionControlFilter extends AccessControlFilter
 {
 
@@ -37,6 +43,13 @@ public class KickoutSessionControlFilter extends AccessControlFilter
 	
 	@Value("${kickout.forward.url}")
 	private String kickoutForwardUrl; // 踢出后到的地址
+	
+	
+	@Value("${kickout.login.fail.forward.url}")
+	private String kickoutLoginFailForwardUrl; // 登录Forward地址
+	
+	@Value("${kickout.login.fail.redirect.url}")
+	private String kickoutLoginFailRedirectUrl; // 登录redirect地址
 	
 	@Value("${kickout.after}")
 	private boolean kickoutAfter = false; // 踢出之前登录的/之后登录的用户 默认踢出之前登录的用户
@@ -48,6 +61,40 @@ public class KickoutSessionControlFilter extends AccessControlFilter
 
 	private Cache<String, Deque<Serializable>> cache;
 
+	public String getKickoutLoginFailForwardUrl()
+	{
+		return kickoutLoginFailForwardUrl;
+	}
+
+	public void setKickoutLoginFailForwardUrl(String kickoutLoginFailForwardUrl)
+	{
+		this.kickoutLoginFailForwardUrl = kickoutLoginFailForwardUrl;
+	}
+
+	public String getKickoutLoginFailRedirectUrl()
+	{
+		return kickoutLoginFailRedirectUrl;
+	}
+
+	public void setKickoutLoginFailRedirectUrl(String kickoutLoginFailRedirectUrl)
+	{
+		this.kickoutLoginFailRedirectUrl = kickoutLoginFailRedirectUrl;
+	}
+
+	public boolean isKickoutAfter()
+	{
+		return kickoutAfter;
+	}
+
+	public int getMaxSession()
+	{
+		return maxSession;
+	}
+
+	public SessionManager getSessionManager()
+	{
+		return sessionManager;
+	}
 
 	public String getKickoutRedirectUrl()
 	{
@@ -103,8 +150,12 @@ public class KickoutSessionControlFilter extends AccessControlFilter
 		Subject subject = getSubject(request, response);
 		if (!subject.isAuthenticated() && !subject.isRemembered())
 		{
-			// 如果没有登录，直接进行之后的流程
-			return true;
+			HttpServletRequest httpRequest = (HttpServletRequest) request;
+			if(this.getLoginUrl().endsWith(httpRequest.getRequestURI().substring(httpRequest.getContextPath().length()))){
+				return true;
+			}
+			saveRequestAndRedirectToLogin(request,response);
+			return false;
 		}
 
 		Session session = subject.getSession();
@@ -184,5 +235,35 @@ public class KickoutSessionControlFilter extends AccessControlFilter
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	protected void saveRequestAndRedirectToLogin(ServletRequest request, ServletResponse response) throws IOException
+	{
+		// TODO Auto-generated method stub
+		
+		 saveRequest(request);
+		// 如果没有登录，直接进行之后的流程
+		HttpServletRequest httpRequest = (HttpServletRequest) request;
+		String isRedirect = httpRequest.getParameter("isRedirect");
+		
+		if(this.getLoginUrl().endsWith(httpRequest.getRequestURI().substring(httpRequest.getContextPath().length()))){
+			//super.saveRequestAndRedirectToLogin(request, response);
+			return;
+		}
+		if("true".equalsIgnoreCase(isRedirect)){
+			HttpServletResponse httpResponse = (HttpServletResponse) request;
+			httpResponse.sendRedirect(kickoutLoginFailRedirectUrl);
+		} else {
+			try
+			{
+				httpRequest.getRequestDispatcher(kickoutLoginFailForwardUrl).forward(request, response);
+			} catch (ServletException e)
+			{
+				log.error(e.getMessage());
+				throw new BaseException("-1",e) ;
+			}
+		}
+		 
 	}
 }

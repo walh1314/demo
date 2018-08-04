@@ -12,7 +12,7 @@ import * as http from './base'
  * @param {object} data 
  */
 const login = (data) => {
-  return http.post('/user/login', data)
+  return http.post('/login', data)
 }
 
 /**
@@ -20,7 +20,7 @@ const login = (data) => {
  * @param {object} params 
  */
 const getUserList = params => {
-  return http.fetch('/user/list', params)
+  return http.fetch('/user/pageList', params)
 }
 /**
  * 删除用户
@@ -63,8 +63,8 @@ const addUser = user => {
  * @param {email} email 
  */
 const logout = email => {
-  return http.post('/user/logout', {
-    email
+  return http.post('/logout', {
+    userName
   })
 }
 

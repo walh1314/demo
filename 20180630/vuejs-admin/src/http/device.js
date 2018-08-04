@@ -48,4 +48,12 @@ const addDevice = device => {
   return http.post('/device/add', device)
 }
 
-export { getDeviceList, deleteDeviceById, getDeviceDetail, updateDeviceInfo, addDevice }
+const getRequireAddDeviceList = params => {
+  return http.fetch('/device/requireAddList', params);
+}
+
+const addDeviceList = params => {
+  return http.post('/device/addList', params);
+}
+
+export { getDeviceList, deleteDeviceById, getDeviceDetail, updateDeviceInfo, addDevice,getRequireAddDeviceList,addDeviceList }

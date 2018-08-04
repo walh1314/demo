@@ -8,10 +8,14 @@ import axios from 'axios'
 
 import router from '../router'
 import store from '../store'
+import {Message} from 'element-ui'
 
 // axios 配置
-axios.defaults.timeout = 10000
-axios.defaults.baseURL = '/api/v1'
+axios.defaults.timeout = 30000
+//axios.defaults.baseURL = '/api/v1'
+axios.defaults.baseURL = '/lamp/'
+
+axios.defaults.withCredentials = true;
 
 // 请求拦截器
 axios.interceptors.request.use(config => {
@@ -24,7 +28,7 @@ axios.interceptors.request.use(config => {
 })
 
 axios.interceptors.response.use(response => {
-  return response
+  return handleInterceptorResponse(response);
 }, err => {
   if (err.response) {
     switch (err.response.status) {
@@ -50,7 +54,7 @@ const fetch = (url, params = {}) => {
     axios.get(url, {
       params
     }).then(res => {
-      resolve(res.data)
+      handleResponse(res,resolve)
     }).catch(err => {
       reject(err)
     })
@@ -63,7 +67,7 @@ const fetch = (url, params = {}) => {
 const post = (url, data = {}) => {
   return new Promise((resolve, reject) => {
     axios.post(url, data).then(res => {
-      resolve(res.data)
+      handleResponse(res,resolve)
     }).catch(err => {
       reject(err)
     })
@@ -77,7 +81,7 @@ const post = (url, data = {}) => {
 const put = (url, data = {}) => {
   return new Promise((resolve, reject) => {
     axios.put(url, data).then(res => {
-      resolve(res.data)
+      handleResponse(res,resolve)
     }).catch(err => {
       reject(err)
     })
@@ -90,11 +94,69 @@ const put = (url, data = {}) => {
 const del = (url) => {
   return new Promise((resolve, reject) => {
     axios.delete(url, {}).then(res => {
-      resolve(res.data)
+      handleResponse(res,resolve)
     }).catch(err => {
       reject(err)
     })
   })
 }
 
+/**
+ * 统一异常处理
+ */
+const handleResponse = function(res,resolve){
+  if(res.data != undefined && res.data.code != undefined ){
+    switch (res.data.code){
+      case '1':
+        resolve(res.data); 
+        break;
+      case 'login-1000-01':
+        Message.error(res.data.msg || "系统异常，请联系管理员");
+        //默认跳转到登录页
+        router.push({name: ''});
+        break;
+      case 'login-0000-01':
+          Message.error(res.data.msg || "系统异常，请联系管理员");
+          store.state.userInfo = {}
+          store.state.token = '';
+          localStorage.removeItem('userInfo');
+          localStorage.removeItem('token');
+          //默认跳转到登录页
+          router.push({name: ''});
+          break;
+      default:
+        resolve(res.data);      
+    }
+  }
+}
+  /**
+ * 统一异常处理
+ */
+const handleInterceptorResponse = function(res){
+  if(res.data != undefined && res.data.code != undefined ){
+    switch (res.data.code){
+      case '1':
+        return res;
+      case 'login-1000-01':
+        Message.error(res.data.msg || "系统异常，请联系管理员");
+        //默认跳转到登录页
+        router.push({name: ''});
+        return res;
+        break;
+      case 'login-0000-01':
+          Message.error(res.data.msg || "系统异常，请联系管理员");
+          store.state.userInfo = undefined;
+          store.state.token = undefined;
+          localStorage.removeItem('userInfo');
+          localStorage.removeItem('token');
+          //默认跳转到登录页
+          //router.push({path:"/"});
+          router.push({name: ''});
+          return res;
+          break;
+      default:
+        return res;     
+    }
+  }
+}
 export { axios, fetch, post, put, del }

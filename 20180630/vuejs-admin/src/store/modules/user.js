@@ -10,9 +10,9 @@ const actions = {
 }
 const mutations = {
     [TYPES.LOGIN]: (state, loginData) => {
-        state.userInfo = loginData.data
+        state.userInfo = loginData.data.userInfo
         state.token = loginData.data.token
-        localStorage.setItem('userInfo', JSON.stringify(loginData.data))
+        localStorage.setItem('userInfo', JSON.stringify(loginData.data.userInfo))
         localStorage.setItem('token', loginData.data.token)
     },
     [TYPES.LOGOUT]: state => {

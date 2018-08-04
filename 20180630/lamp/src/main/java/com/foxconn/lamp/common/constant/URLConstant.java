@@ -4,6 +4,9 @@ public interface URLConstant
 {
 
 	static String SYS_LOGIN = "/login";
+	static String SYS_LOGIN_FAIL = "/loginfail";
+	
+	static String SYS_EXCPEITON_HANDLE = "/exceptionHandle";
 	static String SYS_LOGOUT = "/logout";
 	static String SYS_KICKOUT = "/kickout";
 
@@ -33,6 +36,8 @@ public interface URLConstant
 	
 	static String CAMERA_GET_MARK_LAMPS = "/getMarkLamps";
 	
+	static String CAMERA_GET_MARK_IMAGE = "/getMarkImage";
+	
 	static String CAMERA_TYPE_BASE = "/camera/type";
 	
 	static String CAMERA_TYPE_LIST = "/list";
@@ -45,4 +50,15 @@ public interface URLConstant
 	static String LAMP_TYPE_LIST = "/list";
 	static String LAMP_TYPE_DETAIL = "/detail/{id}";
 	static String LAMP_TYPE_ADD = "/add";
+	
+	
+	static String DEVICE_BASE = "/device";
+
+	static String DEVICE_REQUIRE_ADD_LIST = "/requireAddList";
+	static String DEVICE_ADD_LIST = "/addList";
+	
+	
+	static String LOGS_BASE = "/logs";
+	static String LOGS_GET_LOG_USER = "/getLogByUser";
+	
 }

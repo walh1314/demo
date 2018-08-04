@@ -16,35 +16,17 @@
         <el-menu :router="true" :default-active="defaultActive" :unique-opened="true">
           <el-submenu index="1">
             <template slot="title">
-              <i class="iconfont icon-setting"></i>系统设置</template>
+              <i class="iconfont icon-setting"></i>系统管理</template>
             <el-menu-item index="1-1" route="/main/user">用户管理</el-menu-item>
             <el-menu-item index="1-2" route="/main/user/setting">资料设置</el-menu-item>
+            <el-menu-item index="1-3" route="/main/logs">日志管理</el-menu-item>
           </el-submenu>
-          <!-- <el-submenu index="2">
-            <template slot="title">
-              <i class="el-icon-message"></i>文章管理</template>
-            <el-menu-item index="ArtileList" route="/main/article">文章列表</el-menu-item>
-          </el-submenu> -->
           <el-submenu index="3">
             <template slot="title">
               <i class="iconfont icon-equipment-set"></i>设备管理</template>
-            <el-menu-item index="3-1" route="/main/device">设备列表</el-menu-item>
-            <el-menu-item index="3-2" route="/main/device/type">设备类别</el-menu-item>
-            <el-menu-item index="3-3" route="/main/device/arg">设备参数</el-menu-item>
-            <el-menu-item index="3-4" route="/main/device/monitor">设备监控</el-menu-item>
-          </el-submenu>
-          <el-submenu index="4">
-            <template slot="title">
-              <i class="iconfont icon-shujutongji"></i>消息管理</template>
-            <el-menu-item index="4-1" route="/main/msg/device">设备消息</el-menu-item>
-            <el-menu-item index="4-2" route="/main/msg/help">帮助消息</el-menu-item>
-          </el-submenu>
-          <el-submenu index="5">
-            <template slot="title">
-              <i class="iconfont icon-network-man"></i>授权管理</template>
-            <el-menu-item index="5-1" route="/main/auth/client">Client列表</el-menu-item>
-            <el-menu-item index="5-2" route="/main/auth/token">Token列表</el-menu-item>
-            <el-menu-item index="5-3" route="/main/auth/code">Code列表</el-menu-item>
+            <el-menu-item index="3-1" route="/main/camera">设备列表</el-menu-item>
+            <el-menu-item index="3-2" route="/main/camera/edit">设备设置</el-menu-item>
+            <el-menu-item index="3-3" route="/main/camera/type">设备类别</el-menu-item>
           </el-submenu>
         </el-menu>
       </el-aside>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.foxconn.lamp.manager.mapper.SysRoleMapper">
+	<resultMap id="BaseResultMap" type="com.foxconn.lamp.manager.domain.SysRole">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="code" jdbcType="VARCHAR" property="code" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="type" jdbcType="VARCHAR" property="type" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, code, name, type
+	</sql>
+	<select id="selectById" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from sys_role
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<select id="selectByMap" parameterType="map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from sys_role
+		<where>
+			<if test="code != null">
+				and code = #{code,jdbcType=VARCHAR}
+			</if>
+			<if test="name != null">
+				and name = #{name,jdbcType=VARCHAR}
+			</if>
+			<if test="type != null">
+				and type = #{type,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from sys_role
+		where
+		id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.foxconn.lamp.manager.domain.SysRole">
+		insert into sys_role
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="code != null">
+				code,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="code != null">
+				#{code,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateById" parameterType="com.foxconn.lamp.manager.domain.SysRole">
+		update sys_role
+		<set>
+			<if test="code != null">
+				code = #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+</mapper>

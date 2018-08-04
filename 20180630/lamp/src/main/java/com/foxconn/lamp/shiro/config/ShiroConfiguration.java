@@ -54,6 +54,26 @@ public class ShiroConfiguration
 	@Value("${spring.redis.password}")
 	private String password;
 	
+	
+	@Value("${kickout.redirect.url}")
+	private String kickoutRedirectUrl; // 踢出后到的地址
+	
+	@Value("${kickout.forward.url}")
+	private String kickoutForwardUrl; // 踢出后到的地址
+	
+	
+	@Value("${kickout.login.fail.forward.url}")
+	private String kickoutLoginFailForwardUrl; // 登录Forward地址
+	
+	@Value("${kickout.login.fail.redirect.url}")
+	private String kickoutLoginFailRedirectUrl; // 登录redirect地址
+	
+	@Value("${kickout.after}")
+	private boolean kickoutAfter = false; // 踢出之前登录的/之后登录的用户 默认踢出之前登录的用户
+	
+	@Value("${kickout.max.session}")
+	private int maxSession = 1; // 同一个帐号最大会话数 默认1
+	
 	@Bean(name = "shiroFilter")
 	public ShiroFilterFactoryBean shiroFilter(@Qualifier("securityManager") SecurityManager manager,@Qualifier("sysPermissionInitService") SysPermissionInitService sysPermissionInitService)
 	{
@@ -72,10 +92,12 @@ public class ShiroConfiguration
 
 		List<SysPermissionInit> list = sysPermissionInitService.selectAll();
 
+		filterChainDefinitionMap.put("/**", "anon");
 		for (SysPermissionInit sysPermissionInit : list)
 		{
 			filterChainDefinitionMap.put(sysPermissionInit.getUrl(), sysPermissionInit.getPermissionInit());
 		}
+		
 		bean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 
 		return bean;
@@ -232,12 +254,14 @@ public class ShiroConfiguration
 		// 用于根据会话ID，获取会话进行踢出操作的；
 		kickoutSessionControlFilter.setSessionManager(sessionManager());
 		// 是否踢出后来登录的，默认是false；即后者登录的用户踢出前者登录的用户；踢出顺序。
-		kickoutSessionControlFilter.setKickoutAfter(false);
+		kickoutSessionControlFilter.setKickoutAfter(this.kickoutAfter);
 		// 同一个用户最大的会话数，默认1；比如2的意思是同一个用户允许最多同时两个人登录；
-		kickoutSessionControlFilter.setMaxSession(1);
+		kickoutSessionControlFilter.setMaxSession(this.maxSession);
 		// 被踢出后重定向到的地址；
-		kickoutSessionControlFilter.setKickoutForwardUrl("/kickout");
-		kickoutSessionControlFilter.setKickoutRedirectUrl("/kickout");
+		kickoutSessionControlFilter.setKickoutForwardUrl(this.kickoutForwardUrl);
+		kickoutSessionControlFilter.setKickoutRedirectUrl(this.kickoutRedirectUrl);
+		kickoutSessionControlFilter.setKickoutLoginFailForwardUrl(kickoutLoginFailForwardUrl);
+		kickoutSessionControlFilter.setKickoutLoginFailRedirectUrl(kickoutLoginFailRedirectUrl);
 		return kickoutSessionControlFilter;
 	}
 
@@ -281,7 +305,66 @@ public class ShiroConfiguration
 		this.password = password;
 	}
 
-	
+	public String getKickoutRedirectUrl()
+	{
+		return kickoutRedirectUrl;
+	}
+
+	public void setKickoutRedirectUrl(String kickoutRedirectUrl)
+	{
+		this.kickoutRedirectUrl = kickoutRedirectUrl;
+	}
+
+	public String getKickoutForwardUrl()
+	{
+		return kickoutForwardUrl;
+	}
+
+	public void setKickoutForwardUrl(String kickoutForwardUrl)
+	{
+		this.kickoutForwardUrl = kickoutForwardUrl;
+	}
+
+	public String getKickoutLoginFailForwardUrl()
+	{
+		return kickoutLoginFailForwardUrl;
+	}
+
+	public void setKickoutLoginFailForwardUrl(String kickoutLoginFailForwardUrl)
+	{
+		this.kickoutLoginFailForwardUrl = kickoutLoginFailForwardUrl;
+	}
+
+	public String getKickoutLoginFailRedirectUrl()
+	{
+		return kickoutLoginFailRedirectUrl;
+	}
+
+	public void setKickoutLoginFailRedirectUrl(String kickoutLoginFailRedirectUrl)
+	{
+		this.kickoutLoginFailRedirectUrl = kickoutLoginFailRedirectUrl;
+	}
+
+	public boolean isKickoutAfter()
+	{
+		return kickoutAfter;
+	}
+
+	public void setKickoutAfter(boolean kickoutAfter)
+	{
+		this.kickoutAfter = kickoutAfter;
+	}
+
+	public int getMaxSession()
+	{
+		return maxSession;
+	}
+
+	public void setMaxSession(int maxSession)
+	{
+		this.maxSession = maxSession;
+	}
+
 	@Bean
 	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
 	   return new PropertySourcesPlaceholderConfigurer();

@@ -15,17 +15,19 @@
       <el-table-column prop="id" label="编号" sortable align="center"></el-table-column>
       <el-table-column prop="name" label="设备名称" align="center"></el-table-column>
       <el-table-column prop="code" label="设备编号" align="center"></el-table-column>
-      <el-table-column prop="key" label="设备激活码" align="center"></el-table-column>
+      <el-table-column prop="lanNetAddr" label="局域网地址" align="center"></el-table-column>
       <el-table-column prop="pubNetAddr" label="公网地址" align="center"></el-table-column>
-      <el-table-column prop="deviceType.name" label="设备分类" align="center"></el-table-column>
+      <el-table-column prop="type" label="设备分类" align="center"></el-table-column>
       <el-table-column prop="model" label="设备型号" align="center"></el-table-column>
-      <el-table-column prop="prodDate" label="出厂日期" align="center"></el-table-column>
-      <el-table-column prop="status" label="设备状态" align="center"></el-table-column>
-      <el-table-column prop="runTime" label="设备运行时间" align="center"></el-table-column>
+      <el-table-column prop="exFactoryDate" label="出厂日期" align="center" :formatter="formatDate"></el-table-column>
+      <el-table-column prop="status" label="设备状态" align="center" ></el-table-column>
+      <el-table-column prop="createTime" label="创建时间" align="center" :formatter="formatDate"></el-table-column>
       <el-table-column label="操作" width="180" align="center">
         <template slot-scope="scope">
           <el-button @click="$router.push('/main/device/edit/' + scope.row.id)" type="text" size="small">
             <i class="iconfont icon-details"></i>查看</el-button>
+          <el-button @click="$router.push('/main/device/mark/' + scope.row.id)" type="text" size="small">
+            <i class="iconfont el-icon-edit"></i>标示</el-button>
           <el-button @click="handleDelete(scope.row)" type="text" size="small">
             <i class="iconfont icon-delete"></i>删除</el-button>
         </template>
@@ -36,7 +38,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import { getDeviceList, deleteDeviceById } from "../../http/device";
 export default {
@@ -51,6 +52,9 @@ export default {
       currentPage: 1,
       pageSize: 5
     };
+  },
+  filters:{
+    
   },
   mounted() {
     const query = {};
@@ -128,7 +132,19 @@ export default {
     },
     pageSizeChange(pageSize) {
       this.pageSize = pageSize;
-    }
+    },
+    formatDate:function (row,column) {
+          const  data = row[column.property];
+          console.log(data);
+          var now = new Date(data);
+          var year = now.getFullYear();
+          var month = now.getMonth() + 1;
+          var date = now.getDate();
+          var hour = now.getHours();
+          var minute = now.getMinutes();
+          var second = now.getSeconds();
+          return year + "-" + month + "-" + date + "   " + hour + ":" + minute + ":" + second;
+      }
   }
 };
 </script>

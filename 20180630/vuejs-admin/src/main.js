@@ -21,7 +21,22 @@ Vue.component('chart', ECharts)
 import store from './store'
 
 import moment from 'moment'
+import Stompjs from "stompjs"
+import SockJS from "sockjs-client"
+//import {Signal} from "await-signal"
+
+//const sysconstant = require('../../config/sysconstant')
+// const sysconstant = require('')
+
+// const websocketClient  = Stompjs.over(new SockJS(sysconstant.WEBSOCKET_SERVICE));
 Vue.prototype.$moment = moment
+Vue.prototype.$Stompjs = Stompjs
+Vue.prototype.$SockJS = SockJS
+//Vue.prototype.$Signal = Signal
+
+//Vue.use(Signal);
+//var aa = new Signal("wait");
+//new Signal("wait");
 
 Vue.use(ElementUI)
 
@@ -39,5 +54,26 @@ new Vue({
   router,
   store,
   components: { App },
-  template: '<App/>'
+  template: '<App/>',
+  filters: {
+    formatDate: function (data) {
+      var now = new Date(data);
+      var year = now.getFullYear();
+      var month = now.getMonth() + 1;
+      var date = now.getDate();
+      var hour = now.getHours();
+      var minute = now.getMinutes();
+      var second = now.getSeconds();
+      return year + "-" + month + "-" + date + "   " + hour + ":" + minute + ":" + second;
+    }
+  },methods:{
+     sleep: function(time) {
+        var start = new Date().getTime();
+        while (true) {
+            if (new Date().getTime() - start > time) {
+                break;
+            }
+        }
+    }
+  }
 })

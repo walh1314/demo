@@ -1,0 +1,137 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.foxconn.lamp.mqtt.config.MqttProperties",
+      "name": "com.mqtt",
+      "type": "com.foxconn.lamp.mqtt.config.MqttProperties"
+    },
+    {
+      "sourceType": "com.foxconn.lamp.config.mqtt.CameraProperties",
+      "name": "com.mqtt.camera",
+      "type": "com.foxconn.lamp.config.mqtt.CameraProperties"
+    },
+    {
+      "sourceType": "com.foxconn.lamp.camera.taskexecutor.CameraTaskExecutorConfig",
+      "name": "com.mqtt.task",
+      "type": "com.foxconn.lamp.camera.taskexecutor.CameraTaskExecutorConfig"
+    },
+    {
+      "sourceType": "com.foxconn.lamp.shiro.config.RedisProperties",
+      "name": "spring.redis",
+      "type": "com.foxconn.lamp.shiro.config.RedisProperties"
+    },
+    {
+      "sourceType": "com.foxconn.lamp.thirdparty.config.AmProperties",
+      "name": "thirdparty.am",
+      "type": "com.foxconn.lamp.thirdparty.config.AmProperties"
+    },
+    {
+      "sourceType": "com.foxconn.lamp.thirdparty.config.DmProperties",
+      "name": "thirdparty.dm",
+      "type": "com.foxconn.lamp.thirdparty.config.DmProperties"
+    },
+    {
+      "sourceType": "com.foxconn.lamp.thirdparty.config.ShinobiProperties",
+      "name": "thirdparty.shinobi",
+      "type": "com.foxconn.lamp.thirdparty.config.ShinobiProperties"
+    },
+    {
+      "sourceType": "com.foxconn.lamp.thirdparty.config.StarLogsProperties",
+      "name": "thirdparty.starlogs",
+      "type": "com.foxconn.lamp.thirdparty.config.StarLogsProperties"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.foxconn.lamp.config.mqtt.CameraProperties",
+      "name": "com.mqtt.camera.qos",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.foxconn.lamp.config.mqtt.CameraProperties",
+      "name": "com.mqtt.camera.topic",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.foxconn.lamp.mqtt.config.MqttProperties",
+      "name": "com.mqtt.inbound",
+      "type": "com.foxconn.lamp.mqtt.config.MqttInboundProperties"
+    },
+    {
+      "sourceType": "com.foxconn.lamp.mqtt.config.MqttProperties",
+      "name": "com.mqtt.outbound",
+      "type": "com.foxconn.lamp.mqtt.config.MqttOutboundProperties"
+    },
+    {
+      "sourceType": "com.foxconn.lamp.camera.taskexecutor.CameraTaskExecutorConfig",
+      "name": "com.mqtt.task.core-pool-size",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.foxconn.lamp.camera.taskexecutor.CameraTaskExecutorConfig",
+      "name": "com.mqtt.task.keep-alive-seconds",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.foxconn.lamp.camera.taskexecutor.CameraTaskExecutorConfig",
+      "name": "com.mqtt.task.max-pool-size",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.foxconn.lamp.camera.taskexecutor.CameraTaskExecutorConfig",
+      "name": "com.mqtt.task.queue-capacity",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.foxconn.lamp.shiro.config.RedisProperties",
+      "name": "spring.redis.host",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.foxconn.lamp.shiro.config.RedisProperties",
+      "name": "spring.redis.password",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.foxconn.lamp.shiro.config.RedisProperties",
+      "name": "spring.redis.port",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.foxconn.lamp.shiro.config.RedisProperties",
+      "name": "spring.redis.timeout",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.foxconn.lamp.thirdparty.config.AmProperties",
+      "name": "thirdparty.am.url",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.foxconn.lamp.thirdparty.config.DmProperties",
+      "name": "thirdparty.dm.url",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.foxconn.lamp.thirdparty.config.ShinobiProperties",
+      "name": "thirdparty.shinobi.header-auth",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.foxconn.lamp.thirdparty.config.ShinobiProperties",
+      "name": "thirdparty.shinobi.header-ke",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.foxconn.lamp.thirdparty.config.ShinobiProperties",
+      "name": "thirdparty.shinobi.url",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.foxconn.lamp.thirdparty.config.StarLogsProperties",
+      "name": "thirdparty.starlogs.url",
+      "type": "java.lang.String"
+    }
+  ]
+}

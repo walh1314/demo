@@ -1,42 +1,36 @@
 <template>
   <div class="form">
     <el-form :label-position="labelPosition" label-width="80px" :model="userInfo" :rules="rules" ref="userInfo">
-      <el-form-item label="名称" prop="name">
-        <el-input v-model="userInfo.name"></el-input>
+      <el-form-item label="用户名" prop="name">
+        <el-input v-model="userInfo.name" placeholder="请输入用户名"></el-input>
       </el-form-item>
-      <el-form-item label="年龄" prop="age">
-        <el-input v-model.number="userInfo.age"></el-input>
+            <el-form-item label="中文名" prop="zhName">
+        <el-input v-model="userInfo.zhName" placeholder="请输入中文名"></el-input>
+      </el-form-item>
+            <el-form-item label="英文名" prop="enName">
+        <el-input v-model="userInfo.enName" placeholder="请输入英文名"></el-input>
       </el-form-item>
       <el-form-item label="邮箱" prop="email">
-        <el-input v-model="userInfo.email"></el-input>
+        <el-input v-model="userInfo.email" placeholder="请输入邮箱"></el-input>
       </el-form-item>
-      <el-form-item label="联系方式" prop="mobile">
-        <el-input v-model="userInfo.mobile"></el-input>
+      <el-form-item label="手机号码" prop="mobile">
+        <el-input v-model="userInfo.mobile" placeholder="请输入手机号码"></el-input>
       </el-form-item>
-      <el-form-item label="单位名称" prop="company">
-        <el-input v-model="userInfo.company"></el-input>
-      </el-form-item>
-      <el-form-item label="上次登录" style="text-align:left;" prop="lastSignInAt">
-        <el-date-picker v-model="userInfo.lastSignInAt" type="datetime" placeholder="选择日期时间" :readonly="true"></el-date-picker>
+      <el-form-item label="短号" prop="shortPhone">
+        <el-input v-model="userInfo.shortPhone" placeholder="请输入短号"></el-input>
       </el-form-item>
       <el-form-item label="当前状态" style="text-align:left;" prop="status">
         <el-radio-group v-model="userInfo.status">
-          <el-radio label="1">正常</el-radio>
-          <el-radio label="-1">禁用</el-radio>
+          <el-radio :label="1">正常</el-radio>
+          <el-radio :label="-1">禁用</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="个人说明" prop="info">
-        <el-input type="textarea" :rows="4" placeholder="请输入内容" v-model="userInfo.info">
+      <el-form-item label="备注" prop="desc">
+        <el-input type="textarea" :rows="4" placeholder="请输入备注" v-model="userInfo.desc">
         </el-input>
       </el-form-item>
-      <el-form-item label="头像" style="text-align:left;" prop="avatar">
-        <el-upload class="avatar-uploader" action="/api/v1/tools/upload" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-          <img v-if="userInfo.avatar" :src="userInfo.avatar" class="avatar">
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-        </el-upload>
-      </el-form-item>
       <el-form-item style="text-align:left;">
-        <el-button type="primary" @click="saveUserInfo('userInfo')">保存设置</el-button>
+        <el-button type="primary" @click="saveUserInfo('userInfo')">保存</el-button>
         <el-button @click="back" type="info">返回上级</el-button>
       </el-form-item>
     </el-form>
@@ -55,8 +49,7 @@ export default {
     getUserDetail(
       this.$route.params.userId || this.$store.state.user.userInfo.id
     ).then(res => {
-        console.log("用户详情", res);
-        this.userInfo = res;
+        this.userInfo = res.data;
     }).catch(err => {
         console.log(err);
         this.$message({
@@ -67,33 +60,20 @@ export default {
   },
   data() {
     const checkAge = (rule, value, callback) => {
-      /*if (!value) {
-        return callback(new Error("年龄不能为空"));
-      }
-      */
       if(value == null) {
          callback();
          return ;
-      }
-      if (!Number.isInteger(value)) {
-        callback(new Error("请输入数字值"));
-      } else {
-        if (value < 10) {
-          callback(new Error("必须年满10岁"));
-        } else {
-          callback();
-        }
       }
     };
     return {
       labelPosition: "right",
       userInfo: {
-        status: "1",
+        status: 1,
         avatar: "" // 如果没有改属性，那么新增页下的头像始终不会显示，因为v-if检测不到空对象中的某个属性
       },
       rules: {
         name: [
-          { required: true, message: "请输入用户名称", trigger: "blur" },
+          { required: true, message: "请输入用户名", trigger: "blur" },
           {
             min: 3,
             max: 10,
@@ -114,13 +94,6 @@ export default {
             message: "请输入正确的邮箱地址",
             trigger: "blur,change"
           }
-        ],
-        mobile: [
-          {
-            required: true,
-            message: "联系方式不能为空",
-            trigger: "blur,change"
-          }
         ]
       }
     };
@@ -136,20 +109,7 @@ export default {
       this.userInfo.avatar = "/" + res.url;
       // this.imageUrl = URL.createObjectURL(file.raw);
     },
-    beforeAvatarUpload(file) {
-      const isJPG = file.type === "image/jpeg";
-      const isLt2M = file.size / 1024 / 1024 < 2;
-
-      if (!isJPG) {
-        this.$message.error("上传头像图片只能是 JPG 格式!");
-      }
-      if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
-      }
-      return isJPG && isLt2M;
-    },
     saveUserInfo(formName) {
-      console.log("================" + formName);
       this.$refs[formName].validate(valid => {
         if (valid) {
           if (this.userInfo.id) {

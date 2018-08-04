@@ -1,11 +1,13 @@
 package com.foxconn.lamp.camera.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.foxconn.lamp.camera.domain.CameraType;
@@ -97,6 +99,35 @@ public class CameraTypeServiceImpl implements CameraTypeService
 			throw new BaseException(ErrorCodes.CAMERA_TYPE_ADD_FAIL);
 		}
 		return result;
+	}
+	
+	
+	@Async
+	@Override
+	public void replaceInsertCameraTypeListAsync(List<CameraType> record)
+	{
+		
+		if(record != null && record.size()>0){
+			List<CameraType> insertList = new ArrayList<>(record.size());
+			CameraType cameraType = null;
+			CameraType temp = null;
+			for(int i =0;i<record.size();i++){
+				temp = record.get(i);
+				cameraType = cameraTypeMapper.selectById(temp.getId());
+				if(cameraType == null){
+					cameraType = temp;
+					cameraType.setCreater("system");
+					cameraType.setCreateTime(new Date());
+					cameraType.setModifier("system");
+					cameraType.setModifyTime(new Date());
+					cameraType.setStatus(1L);
+				} else {
+					cameraType.setName(temp.getName());
+				}
+				insertList.add(cameraType);
+			}
+			cameraTypeMapper.batchReplaceInsert(insertList);
+		}
 	}
 
 	@Override

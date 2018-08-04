@@ -34,4 +34,10 @@ public interface CameraService
 	ResultMap<Map<String, Object>> deleteById(String id);
 	
 	ResultMap<List<MarkLampsVo>> getMarkLamps(MarkLampDto record);
+	
+/*	ResultMap<List<MarkLampsVo>> getCameraSnapShot(MarkLampDto record);*/
+	
+	ResultMap<Map<String, Object>> addCameraInfoList(List<CameraInfo> record);
+	
+	boolean addonStateLamps(String data);
 }

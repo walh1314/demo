@@ -44,49 +44,49 @@ const router = new Router({
           nav: '资料设置',
           activeItem: '1-2'
         },
+      },{
+        path: 'logs',
+        component: resolve => require(['@/views/logs/List'], resolve),
+        name: 'logs',
+        meta: {
+          requireAuth: true,
+          nav: '日志管理',
+          activeItem: '1-3'
+        },
       }, {
-        path: 'device',
-        component: resolve => require(['@/views/device/List'], resolve),
-        name: 'Device',
+        path: 'camera',
+        component: resolve => require(['@/views/camera/List'], resolve),
+        name: 'CameraList',
         meta: {
           requireAuth: true,
           nav: '设备列表',
           activeItem: '3-1'
         },
       },{
-        path: 'device/edit/:devId?',
-        component: resolve => require(['@/views/device/Edit'], resolve),
-        name: 'DeviceEdit',
+        path: 'camera/edit/:cameraId?',
+        component: resolve => require(['@/views/camera/edit'], resolve),
+        name: 'CameraEdit',
         meta: {
           requireAuth: true,
-          nav: '设备编辑',
-          activeItem: '3-1'
+          nav: '设备设置',
+          activeItem: '3-2'
         },
       },{
-        path: 'device/type',
-        component: resolve => require(['@/views/devType/List'], resolve),
+        path: 'camera/type',
+        component: resolve => require(['@/views/camera/Type.List'], resolve),
         name: 'DevTypeList',
         meta: {
           requireAuth: true,
           nav: '设备类别',
-          activeItem: '3-2'
-        },
-      }, {
-        path: 'device/arg',
-        component: resolve => require(['@/views/devArg/List'], resolve),
-        name: 'DevArgList',
-        meta: {
-          requireAuth: true,
-          nav: '设备参数',
           activeItem: '3-3'
         },
       },{
-        path: 'device/monitor',
-        component: resolve => require(['@/views/device/Monitor'], resolve),
-        name: 'DevMonitor',
+        path: 'camera/mark/:deviceId/:topic?',
+        component: resolve => require(['@/views/camera/Mark'], resolve),
+        name: 'CameraMark',
         meta: {
           requireAuth: true,
-          nav: '设备监控',
+          nav: '灯号设定',
           activeItem: '3-4'
         },
       },  {
@@ -107,7 +107,7 @@ router.beforeEach((to, from, next) => {
     return next('/main')
   }
   if (to.meta.requireAuth) {    // 如果需要拦截
-    if (store.state.user.token) {
+    if (store != undefined && store.state != undefined &&  store.state.user != undefined &&  store.state.user.token) {
       next()
     } else {
       next({

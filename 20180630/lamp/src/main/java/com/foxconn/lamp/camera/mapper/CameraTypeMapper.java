@@ -13,6 +13,8 @@ public interface CameraTypeMapper
 	int deleteById(Integer id);
 
 	int insert(CameraType record);
+	
+	int batchReplaceInsert(List<CameraType> record);
 
 	List<CameraType> selectByMap(Map<String, Object> map);
 

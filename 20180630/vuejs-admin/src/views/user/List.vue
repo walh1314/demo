@@ -15,13 +15,14 @@
       </el-form-item>
     </el-form>
     <el-table :data="tableData" stripe style="width: 100%" :highlight-current-row="true"   @sort-change="sortChange">
-      <el-table-column prop="id" label="编号" sortable align="center"></el-table-column>
-      <el-table-column prop="name" label="姓名" sortable="custom" align="center"></el-table-column>
-      <el-table-column prop="age" label="年龄" align="center"></el-table-column>
+      <el-table-column prop="name" label="用户名"  align="center"></el-table-column>
+      <el-table-column prop="zhName" label="中文名" align="center"></el-table-column>
+      <el-table-column prop="enName" label="英文名" align="center"></el-table-column>
       <el-table-column prop="status" label="状态" :formatter="formatStatus" align="center"></el-table-column>
       <el-table-column prop="email" label="邮箱" align="center"></el-table-column>
-      <el-table-column prop="mobile" label="电话号码" align="center"></el-table-column>
-      <el-table-column prop="info" label="备注信息" align="center"></el-table-column>
+      <el-table-column prop="mobile" label="手机号码" align="center"></el-table-column>
+      <el-table-column prop="shortPhone" label="短号" align="center"></el-table-column>
+      <el-table-column prop="desc" label="备注信息" align="center"></el-table-column>
       <el-table-column label="操作" width="200" align="center">
         <template slot-scope="scope">
           <el-button @click="handleDetail(scope.row)" type="text" size="small">
@@ -52,7 +53,7 @@ export default {
       tableData: [],
       currentPage: 1,
       total: 0,
-      pageSize: 2
+      pageSize: 10
     };
   },
   mounted() {
@@ -93,7 +94,7 @@ export default {
       return cellValue ? "是" : "否";
     },
     formatStatus(row, column, cellValue) {
-      return cellValue === "1" ? "正常" : "已禁用";
+      return cellValue == "1" ? "正常" : "已禁用";
     },
     handleDetail(row) {
       // 查看详情
@@ -135,7 +136,6 @@ export default {
       this.onSubmit();
     },
     sortChange(column, prop, order) {
-      console.log("==============" + column.prop+ column.order);
       this.onSubmit();
     },
   }

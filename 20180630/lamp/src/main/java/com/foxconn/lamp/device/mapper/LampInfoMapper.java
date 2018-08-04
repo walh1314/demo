@@ -14,9 +14,15 @@ public interface LampInfoMapper {
     List<LampInfo> selectByMap(Map<String,Object> map);
 
     LampInfo selectById(Integer id);
+    
+    LampInfo selectBySerail(String Serail);
+    
+    List<LampInfo> selectByDeviceId(String Serail);
    
     int updateById(LampInfo record);
     
     int updateBySerail(LampInfo record);
+    
+    int batchReplaceInsert(List<LampInfo> list);
 
 }

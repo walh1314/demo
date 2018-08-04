@@ -26,8 +26,8 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
 import com.foxconn.lamp.common.constant.RedisConstant;
-import com.foxconn.lamp.common.exception.BaseException;
 import com.foxconn.lamp.common.exception.ErrorCodes;
+import com.foxconn.lamp.common.exception.ShiroAuthenticationException;
 import com.foxconn.lamp.common.util.EncryptUtil;
 import com.foxconn.lamp.manager.domain.SysPermission;
 import com.foxconn.lamp.manager.domain.SysRole;
@@ -75,7 +75,7 @@ public class CustomAuthorizingRealm extends AuthorizingRealm
 
 		if ("LOCK".equals(opsForValue.get(RedisConstant.SHIRO_IS_LOCK + name)))
 		{
-			throw new BaseException(ErrorCodes.LOGIN_BAN_LOFIN_TIMES,new DisabledAccountException("由于密码输入错误次数大于5次，帐号已经禁止登录！"));
+			throw new ShiroAuthenticationException(ErrorCodes.LOGIN_BAN_LOFIN_TIMES,new DisabledAccountException("由于密码输入错误次数大于5次，帐号已经禁止登录！"));
 		}
 		Map<String, Object> map = new HashMap<String, Object>(2);
 		map.put("name", name);
@@ -94,13 +94,13 @@ public class CustomAuthorizingRealm extends AuthorizingRealm
 		}
 		if (null == user)
 		{
-			throw new BaseException(ErrorCodes.LOGIN_USER_OR_PASSWORD_FAIL, new AccountException("帐号或密码不正确！"));
+			throw new ShiroAuthenticationException(ErrorCodes.LOGIN_USER_OR_PASSWORD_FAIL, new AccountException("帐号或密码不正确！"));
 		} else if ("-1".equals(user.getStatus()))
 		{
 			/**
 			 * 如果用户的status为禁用。那么就抛出<code>DisabledAccountException</code>
 			 */
-			throw new BaseException(ErrorCodes.LOGIN_BAN_LOFIN, new DisabledAccountException("此帐号已经设置为禁止登录！"));
+			throw new ShiroAuthenticationException(ErrorCodes.LOGIN_BAN_LOFIN, new DisabledAccountException("此帐号已经设置为禁止登录！"));
 		} else
 		{
 			// 登录成功

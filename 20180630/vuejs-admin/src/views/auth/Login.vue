@@ -4,10 +4,10 @@
       <el-row>
         <el-col :span="24">
           <el-form label="" :label-position="labelPosition" label-width="100px" :model="ruleForm" ref="ruleForm" :rules="rules">
-            <el-form-item label="邮 箱" prop="email">
-              <el-input v-model="ruleForm.email" type="text" @keyup.enter.native="submitForm('ruleForm')"></el-input>
+            <el-form-item label="用户名" prop="userName">
+              <el-input v-model="ruleForm.userName" type="text" @keyup.enter.native="submitForm('ruleForm')"></el-input>
             </el-form-item>
-            <el-form-item label="密 码" style="color: #fff;" prop="password">
+            <el-form-item label="密码" style="color: #fff;" prop="password">
               <el-input v-model="ruleForm.password" type="password" @keyup.enter.native="submitForm('ruleForm')"></el-input>
             </el-form-item>
             <el-form-item label="">
@@ -30,20 +30,14 @@ export default {
   data() {
     return {
       ruleForm: {
-        email: "",
+        userName: "",
         password: ""
       },
       isPass: false,
       labelPosition: "right",
       rules: {
-        email: [
-          { required: true, message: "请输入邮箱地址", trigger: "blur" },
-          {
-            type: "email",
-            message: "请输入正确的邮箱地址",
-            trigger: "blur,change"
-          }
-        ],
+        userName: [
+          { required: true, message: "请输入用户名", trigger: "blur" }],
         password: [{ required: true, message: "请输入密码", trigger: "blur" }]
       }
     };
@@ -54,10 +48,11 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           login({
-            email: this.ruleForm.email,
+            userName: this.ruleForm.userName,
             password: this.ruleForm.password
           }).then(res => {
-            console.log("1111111111111");
+            debugger;
+            console.log('11111111111');
               this.LOGIN(res);
               this.$router.push("/main");
             })

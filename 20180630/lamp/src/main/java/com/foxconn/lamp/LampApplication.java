@@ -56,4 +56,71 @@ public class LampApplication
 		filterRegistrationBean.setFilter(proxy);
 		return filterRegistrationBean;
 	}
+
+//	@Bean
+//	public MessageProducer inbound()
+//	{
+//		MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter(config.getClientId(),
+//				mqttClientFactory());
+//		adapter.setCompletionTimeout(5000);
+//		adapter.setConverter(new DefaultPahoMessageConverter());
+//		adapter.setOutputChannel(mqttInputChannel());
+//		for (String s : config.getTopics())
+//		{
+//			adapter.addTopic(s, config.getQos());
+//		}
+//		return adapter;
+//	}
+//
+//	@Bean
+//	public MqttPahoClientFactory mqttClientFactory()
+//	{
+//		DefaultMqttPahoClientFactory factory = new DefaultMqttPahoClientFactory();
+//
+//		MqttConnectOptions options = new MqttConnectOptions();
+//		factory.setConnectionOptions(options);
+//		/*
+//		 * factory.setServerURIs("tcp://localhost:1883");
+//		 * factory.setUserName("guest"); factory.setPassword("guest");
+//		 */
+//		return factory;
+//	}
+//
+//	@Bean
+//	public MessageChannel mqttInputChannel()
+//	{
+//		return new DirectChannel();
+//	}
+//
+//	@Bean
+//	@ServiceActivator(inputChannel = "mqttInputChannel")
+//	public MessageHandler handler()
+//	{
+//		return new MessageHandler()
+//		{
+//
+//			@Override
+//			public void handleMessage(Message<?> message) throws MessagingException
+//			{
+//				XRemoteDevice.getInstance().receive(message.getHeaders().get("mqtt_topic"), message.getPayload());
+//
+//			}
+//		};
+//	}
+//
+//	@Bean
+//	@ServiceActivator(inputChannel = "mqttOutboundChannel")
+//	public MessageHandler mqttOutbound()
+//	{
+//		MqttPahoMessageHandler messageHandler = new MqttPahoMessageHandler(config.getClientId(), mqttClientFactory());
+//		messageHandler.setAsync(true);
+//		messageHandler.setDefaultTopic("testTopic");
+//		return messageHandler;
+//	}
+//
+//	@Bean
+//	public MessageChannel mqttOutboundChannel()
+//	{
+//		return new DirectChannel();
+//	}
 }

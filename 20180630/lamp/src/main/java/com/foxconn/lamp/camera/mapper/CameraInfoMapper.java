@@ -9,15 +9,19 @@ import com.foxconn.lamp.vo.MarkLampsVo;
 public interface CameraInfoMapper
 {
 
-	int deleteById(Integer id);
+	Integer deleteById(Integer id);
 
-	int insert(CameraInfo record);
-
+	Integer insert(CameraInfo record);
+	
+	Integer batchInsert(List<CameraInfo> record);
+	
+	Integer batchReplaceInsert(List<CameraInfo> record);
+	
 	List<CameraInfo> selectByMap(Map<String, Object> map);
 
 	CameraInfo selectById(Integer id);
 
-	int updateById(CameraInfo record);
+	Integer updateById(CameraInfo record);
 	
 	List<MarkLampsVo> selectByDeviceId(String  deviceId);
 }

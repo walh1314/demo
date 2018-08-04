@@ -21,6 +21,7 @@ import com.foxconn.lamp.common.entity.PageResult;
 import com.foxconn.lamp.common.entity.ResultMap;
 import com.foxconn.lamp.common.exception.BaseException;
 import com.foxconn.lamp.common.exception.ErrorCodes;
+import com.foxconn.lamp.common.exception.ShiroAuthenticationException;
 import com.foxconn.lamp.common.util.SystemUtil;
 import com.foxconn.lamp.dto.UserDto;
 import com.foxconn.lamp.manager.domain.SysUser;
@@ -64,11 +65,11 @@ public class SysUserServiceImpl implements SysUserService
 		if (StringUtils.isNullOrEmpty(userName))
 		{
 			result.setCode(ErrorCodes.USER_NAME_EMPTY.getCode());
-			result.setCode(ErrorCodes.USER_NAME_EMPTY.getDesc());
+			result.setMsg(ErrorCodes.USER_NAME_EMPTY.getDesc());
 		} else if (StringUtils.isNullOrEmpty(password))
 		{
 			result.setCode(ErrorCodes.USER_PASSWORD_EMPTY.getCode());
-			result.setCode(ErrorCodes.USER_PASSWORD_EMPTY.getDesc());
+			result.setMsg(ErrorCodes.USER_PASSWORD_EMPTY.getDesc());
 		} else
 		{
 			// 包装用户名和密码以备后边其他类使用
@@ -94,17 +95,28 @@ public class SysUserServiceImpl implements SysUserService
 			} catch (UnknownAccountException e)
 			{
 				result.setCode(ErrorCodes.LOGIN_USER_OR_PASSWORD_FAIL.getCode());
-				result.setCode(ErrorCodes.LOGIN_USER_OR_PASSWORD_FAIL.getDesc());
+				result.setMsg(ErrorCodes.LOGIN_USER_OR_PASSWORD_FAIL.getDesc());
 				return result;
 			} catch (IncorrectCredentialsException e)
 			{
 				result.setCode(ErrorCodes.LOGIN_USER_OR_PASSWORD_FAIL.getCode());
-				result.setCode(ErrorCodes.LOGIN_USER_OR_PASSWORD_FAIL.getDesc());
+				result.setMsg(ErrorCodes.LOGIN_USER_OR_PASSWORD_FAIL.getDesc());
+				return result;
+			} catch (ShiroAuthenticationException e)
+			{
+				result.setCode(e.getCode());
+				result.setMsg(e.getMsg());
+				throw e;
+				//return result;
+			} catch (BaseException e)
+			{
+				result.setCode(e.getCode());
+				result.setMsg(e.getMsg());
 				return result;
 			} catch (Exception e)
 			{
 				result.setCode(ErrorCodes.SYSTEM_EXCEPTION.getCode());
-				result.setCode(ErrorCodes.SYSTEM_EXCEPTION.getDesc());
+				result.setMsg(ErrorCodes.SYSTEM_EXCEPTION.getDesc());
 				result.setArgs(new String[]
 				{ "link.system.admin" });
 				return result;

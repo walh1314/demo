@@ -38,7 +38,6 @@ public class LampTypeServiceImpl implements LampTypeService
 		ResultMap<List<LampType>> result = new ResultMap<>();
 		Map<String, Object> map = new HashMap<>(1);
 		map.put("name", bean.getName());
-
 		List<LampType> list = lampTypeMapper.selectByMap(map);
 		result.setData(list);
 		return result;

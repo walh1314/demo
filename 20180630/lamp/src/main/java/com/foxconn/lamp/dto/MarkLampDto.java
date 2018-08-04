@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 
 /**
  * @author liupingan
@@ -27,7 +28,78 @@ public class MarkLampDto implements Serializable
 
 	private String desc;
 
+	@JSONField(serialzeFeatures={SerializerFeature.DisableCircularReferenceDetect})
 	private List<PointDto> points;
+	
+	/**
+	 * 需要的图片类型
+	 */
+	private String imageType;
+	
+	/**
+	 * 需要获取的图片宽度
+	 */
+	private String imageWidth;
+	
+	/**
+	 * 图片高度
+	 */
+	private String imageHeight;
+
+	private double scale;
+	
+	private List<Integer> threshold;
+	
+	
+	public List<Integer> getThreshold()
+	{
+		return threshold;
+	}
+
+	public void setThreshold(List<Integer> threshold)
+	{
+		this.threshold = threshold;
+	}
+
+	public double getScale()
+	{
+		return scale;
+	}
+
+	public void setScale(double scale)
+	{
+		this.scale = scale;
+	}
+
+	public String getImageWidth()
+	{
+		return imageWidth;
+	}
+
+	public void setImageWidth(String imageWidth)
+	{
+		this.imageWidth = imageWidth;
+	}
+
+	public String getImageHeight()
+	{
+		return imageHeight;
+	}
+
+	public void setImageHeight(String imageHeight)
+	{
+		this.imageHeight = imageHeight;
+	}
+
+	public String getImageType()
+	{
+		return imageType;
+	}
+
+	public void setImageType(String imageType)
+	{
+		this.imageType = imageType;
+	}
 
 	public String getId()
 	{
